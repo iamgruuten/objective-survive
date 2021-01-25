@@ -77,7 +77,7 @@ void VArray<T>::push(T item, int index) {
 }
 
 template <typename T>
-void VArray<T>::replace(T item, int index) {
+void VArray<T>::set(T item, int index) {
     // GUARD index < size
     if(index >= size || index < 0 && size+index < 0) {
         throw std::out_of_range("OUT OF RANGE");
@@ -90,7 +90,7 @@ void VArray<T>::replace(T item, int index) {
 }
 
 template <typename T>
-T VArray<T>::get(int index) {
+T& VArray<T>::get(int index) {
     // GUARD index < size
     if(index >= size || index < 0 && size+index < 0) {
         throw std::out_of_range("OUT OF RANGE");
@@ -100,12 +100,7 @@ T VArray<T>::get(int index) {
     if(index < 0) { index = size+index; }
     
     // THEN return item within size at index
-    return items[index]; 
-}
-
-template <typename T>
-T VArray<T>::getLast() {
-    return items[size];
+    return items[index];
 }
 
 template <typename T>
@@ -145,4 +140,27 @@ void VArray<T>::print() {
     std::cout << items[size-1] << std::endl;
     std::cout << "Size: " << size << std::endl;
     std::cout << "Capacity: " << capacity << std::endl;
+}
+
+template <typename T>
+T& VArray<T>::operator[](int index) const {
+    return get(index);
+}
+
+template <typename T>
+typename VArray<T>::Proxy VArray<T>::operator[](int index) {
+    return Proxy(*this, index);
+}
+
+// Proxy implementations
+
+template <typename T>
+VArray<T>::Proxy::operator T() const {
+    return varray.get(index);
+}
+
+template <typename T>
+typename VArray<T>::Proxy& VArray<T>::Proxy::operator=(T value) {
+    varray.set(value, index);
+    return *this;
 }
