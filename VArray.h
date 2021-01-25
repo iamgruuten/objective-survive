@@ -3,6 +3,7 @@
 
 template <typename T>
 class VArray {
+friend class Proxy;
 private:    
     int size;
     int capacity;
@@ -20,7 +21,7 @@ public:
             Proxy(VArray& varray, int index) : varray(varray), index(index) {}
 
             // operators
-            operator T() const; // cast
+            operator T() const; // rvalue get
             Proxy& operator=(T value); // set
     };
 
@@ -31,15 +32,15 @@ public:
     void push(T item);
     void push(T item, int index);
     void set(T item, int index);
-    T* getItemPtr(int index);
+    T& get(int index);
     void remove(int index);
     int getSize();
     int getCapacity();
     void print();
 
     // operator methods
-    T operator[](int index) const; // returns a const (read-only) value
-    Proxy operator[](int index); // allows operations to be conducted on the value
+    T& operator[](int index) const; // rvalue get
+    Proxy operator[](int index); // cast to proxy for other operands
 };
 
 #endif

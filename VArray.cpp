@@ -90,7 +90,7 @@ void VArray<T>::set(T item, int index) {
 }
 
 template <typename T>
-T* VArray<T>::getItemPtr(int index) {
+T& VArray<T>::get(int index) {
     // GUARD index < size
     if(index >= size || index < 0 && size+index < 0) {
         throw std::out_of_range("OUT OF RANGE");
@@ -100,7 +100,7 @@ T* VArray<T>::getItemPtr(int index) {
     if(index < 0) { index = size+index; }
     
     // THEN return item within size at index
-    return &items[index]; 
+    return items[index];
 }
 
 template <typename T>
@@ -143,8 +143,8 @@ void VArray<T>::print() {
 }
 
 template <typename T>
-T VArray<T>::operator[](int index) const {
-    return *getItemPtr(index);
+T& VArray<T>::operator[](int index) const {
+    return get(index);
 }
 
 template <typename T>
@@ -156,7 +156,7 @@ typename VArray<T>::Proxy VArray<T>::operator[](int index) {
 
 template <typename T>
 VArray<T>::Proxy::operator T() const {
-    return *varray.getItemPtr(index);
+    return varray.get(index);
 }
 
 template <typename T>
