@@ -20,7 +20,7 @@ public:
             Proxy(VArray& varray, int index) : varray(varray), index(index) {}
 
             // operators
-            operator T() const; // get
+            operator T() const; // cast
             Proxy& operator=(T value); // set
     };
 
