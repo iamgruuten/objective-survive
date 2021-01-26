@@ -1,19 +1,20 @@
 #ifndef spell_h
 #define spell_h
 #include "VArray.h"
-#include "Effect.h"
-#include "Position.h"
-#include "Direction.h"
-#include "Board.h"
+
+// forward declaration
+class Effect;
+class Board;
+class Direction;
+class Position;
 
 class Spell {
 private:
     int range;
-    VArray<Effect> effects;
+    VArray<Effect*> effects;
 public:
-    Spell();
-    Spell(int r, Direction f, VArray<Effect> e);
-    ~Spell();
+    Spell(int range);
+    void addEffect(Effect);
     void activateSpell(Board& board, int distance, Direction facing, Position origin);
 };
 

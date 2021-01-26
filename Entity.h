@@ -1,29 +1,28 @@
 #ifndef entity_h
 #define entity_h
-#include "Displayable.h"
 #include "VArray.h"
-#include "Position.h"
-#include "Spell.h"
+#include "PositionClasses.h"
 
-class Entity : public Displayable {
+// forward declaration
+class Spell;
+
+class Entity {
 private:
     int hp;
     int armor;
     int maxMovePoints;
     int movePoints;
     VArray<Spell> spells;
-    Position pos;
+    AbsolutePosition pos;
 
 public:
-    Entity(int posx, int posy);
     Entity(int hp, int armor, int maxmp, int posx, int posy);
-    ~Entity();
     void setHp(int val);
     int getHp();
     void setArmor(int val);
     int getArmor();
     void setPos(int px, int py);
-    Position getPos();
+    AbsolutePosition getPos();
     void executeSpell(int index);
 };
 
