@@ -4,10 +4,10 @@
 #include "Runnable.h"
 #include "FSMStack.h"
 
-class Tile : private Displayable, private Runnable, private Stateful {
+class Tile : public Displayable, public Stateful {
 private:
 public:
-    Tile(char icon);
+    Tile();
     void tick();
 };
 

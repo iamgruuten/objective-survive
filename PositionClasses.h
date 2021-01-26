@@ -17,13 +17,13 @@ public:
     int getL1Distance(Position* a, Position* b);
 };
 
-class AbsolutePosition : private Position {
+class AbsolutePosition : public Position {
 private:
 public:
     AbsolutePosition(int x, int y) : Position(x, y) {}
 };
 
-class RelativePosition : private Position {
+class RelativePosition : public Position {
 private:
 public:
     RelativePosition(int x, int y) : Position(x, y) {};

@@ -2,11 +2,13 @@
 #define entity_h
 #include "VArray.h"
 #include "PositionClasses.h"
+#include "Displayable.h"
+#include "FSMStack.h"
 
 // forward declaration
 class Spell;
 
-class Entity {
+class Entity : public Displayable, public Stateful {
 private:
     int hp;
     int armor;

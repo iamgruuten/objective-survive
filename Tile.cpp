@@ -1,7 +1,7 @@
 #include "Tile.h"
 
-Tile::Tile(char icon) : Stateful() {
-    setIcon(icon);
+Tile::Tile() : Stateful() {
+    setIcon('.');
 }
 
 void Tile::tick() {
