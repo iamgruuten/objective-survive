@@ -1,28 +1,30 @@
-using namespace std;
-#include<string>
+#ifndef entity_h
+#define entity_h
+#include "Displayable.h"
+#include "VArray.h"
+#include "Position.h"
+#include "Spell.h"
 
-class Entity {
-    
+class Entity : public Displayable {
 private:
-    string hp;
-    string spells;
-    string pos;
+    int hp;
+    int armor;
+    int maxMovePoints;
+    int movePoints;
+    VArray<Spell> spells;
+    Position pos;
 
-    // function
 public:
-    Entity();
-
-    Entity(string, string, string);
-
-    void setHP(string);
-
-    string getHP();
-
-    void setSpell(string);
-
-    string getTelNo();
-
-    void setPos(string);
-
-    string getPos();
+    Entity(int posx, int posy);
+    Entity(int hp, int armor, int maxmp, int posx, int posy);
+    ~Entity();
+    void setHp(int val);
+    int getHp();
+    void setArmor(int val);
+    int getArmor();
+    void setPos(int px, int py);
+    Position getPos();
+    void executeSpell(int index);
 };
+
+#endif
