@@ -1,115 +1,109 @@
 #include "Board.h"
-#include "VArray.cpp"
-#include "Entity.cpp"
-#include "Background.cpp"
-#include "Displayable.cpp"
-#include "Position.cpp"
+#include "Entity.h"
 #include <iostream>
 
-// Tile implementations
-Tile::Tile() {
-    overlay = ' ';
-    background = Background(plain);
-    foreground = NULL;
-}
+// Space implementation
 
-Tile::~Tile() {}
-
-Entity* Tile::getForeground() {
-    return foreground;
-}
-
-Background& Tile::getBackground() {
-    return background;
-}
-
-void Tile::setOverlay(char icon) {
-    overlay = icon;
-}
-
-void Tile::clearOverlay() {
-    overlay = ' ';
-}
-
-void Tile::enteredForeground(Entity* entity) {
-    foreground = entity;
-}
-
-void Tile::leftForeground() {
-    foreground = NULL;
-}
-
-void Tile::setBackground(Background bg) {
-    background = bg;
-}
-
-void Tile::display() {
-    if(foreground != NULL) {
-        foreground->display();
+void Space::display() {
+    if(entity != NULL) {
+        entity->display();
     } else {
-        background.display();
+        tile.display();
     }
 }
 
-void Tile::displayOverlay() {
-    if(overlay == ' ') {
-        display();
-    } else {
-        std::cout << overlay;
-    }
+Entity& Space::getEntity() {
+    return *entity;
 }
 
-// Board implementations
+void Space::setEntity(Entity *e) {
+    entity = e;
+}
+
+Entity* Space::popEntity() {
+    Entity* tmp = entity;
+    entity = nullptr;
+    return tmp;
+}
+
+void Space::moveEntity(Space& s) {
+    s.entity = entity;
+    entity = nullptr;
+}
+
+Tile& Space::getTile() {
+    return tile;
+}
+
+// Board implementation
+
 Board::Board(int size) {
-    showOverlay = false;
-    grid = VArray< VArray<Tile> >(size);
+    overlayEnabled = false;
+    grid = VArray< VArray<Space> >(size);
+    overlay = VArray< VArray<char> >(size);
 
     // initialise tiles
     for(int i=0; i<size; i++) {
-        grid.push(VArray<Tile>(size));
+        grid.push(VArray<Space>(size));
+        overlay.push(VArray<char>(size));
         for(int j=0; j<size; j++) {
-            grid.get(i).push(Tile());
+            grid.get(i).push(Space());
+            overlay.get(i).push(' ');
         }
     }
-}
-
-Board::~Board() {}
-
-Entity* Board::getEntityAt(Position pos) {
-    return grid.get(pos.x).get(pos.y).getForeground();
-}
-
-Background& Board::getBackgroundAt(Position pos) {
-    return grid.get(pos.x).get(pos.y).getBackground();
-}
-
-void Board::enableOverlay() {
-    showOverlay = true;
-}
-
-void Board::disableOverlay() {
-    showOverlay = false;
 }
 
 void Board::resetOverlay() {
-    for(int i=0; i<grid.getSize();i++) {
-        for(int j=0; j<grid.get(i).getSize();j++) {
-            grid.get(i).get(j).clearOverlay();
+    for(int i=0; i<overlay.getSize();i++) {
+        for(int j=0; j<overlay.get(i).getSize();j++) {
+            overlay.get(i).set(' ', j);
         }
     }
+}
+
+void Board::enableOverlay() {
+    overlayEnabled = true;
+}
+
+void Board::disableOverlay() {
+    overlayEnabled = false;
 }
 
 void Board::display() {
-    for(int i=0; i<grid.getSize();i++) {
-        for(int j=0; j<grid.get(i).getSize();j++) {
-            if(showOverlay == true) {
-                grid.get(i).get(j).displayOverlay();
-            } else {
-                grid.get(i).get(j).display();
+    if(overlayEnabled) {
+        for(int i=0; i<overlay.getSize();i++) {
+            for(int j=0; j<overlay.get(i).getSize();j++) {
+                std::cout << overlay.get(i).get(j) << " ";
             }
-            std::cout << " ";
+            std::cout << std::endl;
         }
-        std::cout << std::endl;
+    } else {
+        for(int i=0; i<grid.getSize();i++) {
+            for(int j=0; j<grid.get(i).getSize();j++) {
+                grid.get(i).get(j).display();
+                std::cout << " ";
+            }
+            std::cout << std::endl;
+        }
     }
 }
 
+bool Board::checkPosWithinBoard(AbsolutePosition pos) {
+    return pos.x >= 0 && pos.x < size && pos.y >= 0 && pos.y < size;
+}
+
+Entity* Board::getEntityAt(AbsolutePosition pos) {
+    if(checkPosWithinBoard(pos) == false) {
+        return NULL;
+    }
+
+    return &grid.get(pos.x).get(pos.y).getEntity();
+}
+
+Tile* Board::getTileAt(AbsolutePosition pos) {
+    if(checkPosWithinBoard(pos) == false) {
+        return NULL;
+    }
+    
+    return &grid.get(pos.x).get(pos.y).getTile();
+}

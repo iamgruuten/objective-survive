@@ -1,28 +1,31 @@
-using namespace std;
-#include<string>
+#ifndef entity_h
+#define entity_h
+#include "VArray.h"
+#include "PositionClasses.h"
+#include "Displayable.h"
+#include "FSMStack.h"
 
-class Entity {
-    
+// forward declaration
+class Spell;
+
+class Entity : public Displayable, public Stateful {
 private:
-    string hp;
-    string spells;
-    string pos;
+    int hp;
+    int armor;
+    int maxMovePoints;
+    int movePoints;
+    VArray<Spell> spells;
+    AbsolutePosition pos;
 
-    // function
 public:
-    Entity();
-
-    Entity(string, string, string);
-
-    void setHP(string);
-
-    string getHP();
-
-    void setSpell(string);
-
-    string getTelNo();
-
-    void setPos(string);
-
-    string getPos();
+    Entity(int hp, int armor, int maxmp, int posx, int posy);
+    void setHp(int val);
+    int getHp();
+    void setArmor(int val);
+    int getArmor();
+    void setPos(int px, int py);
+    AbsolutePosition getPos();
+    void executeSpell(int index);
 };
+
+#endif
