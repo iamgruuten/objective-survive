@@ -2,7 +2,7 @@
 
 int main() {
     Board b = Board(13);
-    b.enableOverlay();
+  // b.enableOverlay();
     b.display();
     return 0;
 }

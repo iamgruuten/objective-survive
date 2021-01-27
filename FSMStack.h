@@ -9,8 +9,9 @@ private:
 public:
     State() : description("\0"), bottom(NULL) {}
     State(std::string description) : description(description), bottom(NULL) {}
-    void addToBottom(State* s);
+    void addToBottom(std::string s);
     State* popFromBottom();
+    State* getBottom();
 };
 
 class FSMStack {
