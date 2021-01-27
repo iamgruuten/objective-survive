@@ -1,9 +1,12 @@
 #include "Tile.h"
+#include "FSMStack.h"
 
 Tile::Tile() : Stateful() {
     setIcon('.');
 }
 
-void Tile::tick() {
-    // TODO: implement tick effects
+Tile::~Tile() {}
+
+void Tile::runState() {
+    // TODO: implement fsm
 }

@@ -1,8 +1,17 @@
 #include "Board.h"
 #include "Entity.h"
+#include "Tile.h"
+#include "VArray.cpp"
 #include <iostream>
 
 // Space implementation
+
+Space::Space() {
+    entity = NULL;
+    tile = Tile();
+}
+
+Space::~Space() {}
 
 void Space::display() {
     if(entity != NULL) {

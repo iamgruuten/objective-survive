@@ -18,7 +18,7 @@ private:
     AbsolutePosition pos;
 
 public:
-    Entity(int hp, int armor, int maxmp, int posx, int posy);
+    Entity(char icon, int hp, int armor, int maxmp, int posx, int posy);
     void setHp(int val);
     int getHp();
     void setArmor(int val);
@@ -26,6 +26,7 @@ public:
     void setPos(int px, int py);
     AbsolutePosition getPos();
     void executeSpell(int index);
+    virtual void runState();
 };
 
 #endif

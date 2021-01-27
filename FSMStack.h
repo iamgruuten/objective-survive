@@ -33,9 +33,10 @@ protected:
 
 public:
     Stateful() : fsmStack(), stash() {}
+    virtual ~Stateful();
     void stashState();
     void unstashState();
-    virtual void runState();
+    virtual void runState() = 0;
 };
 
 #endif

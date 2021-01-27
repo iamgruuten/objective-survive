@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "Board.cpp"
 
 int main() {
     Board b = Board(13);

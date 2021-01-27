@@ -12,7 +12,8 @@ private:
     Entity* entity;
     Tile tile;
 public:
-    Space() : entity(NULL), tile(Tile()) {}
+    Space();
+    ~Space();
     void display();
 
     // Entity related methods
