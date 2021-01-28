@@ -21,8 +21,8 @@ void Space::display() {
     }
 }
 
-Entity& Space::getEntity() {
-    return *entity;
+Entity* Space::getEntity() {
+    return entity;
 }
 
 void Space::setEntity(Entity *e) {
@@ -106,7 +106,45 @@ Entity* Board::getEntityAt(AbsolutePosition pos) {
         return NULL;
     }
 
-    return &grid.get(pos.x).get(pos.y).getEntity();
+    return grid.get(pos.y).get(pos.x).getEntity();
+}
+
+void Board::spawnEntityCopyAt(Entity* e, AbsolutePosition pos) {
+    if(checkPosWithinBoard(pos) == false) {
+        return;
+    }
+
+    Entity* newEntity = e->clone();
+    grid.get(pos.y).get(pos.x).setEntity(newEntity);
+}
+
+void Board::despawnEntityAt(AbsolutePosition pos) {
+    if(checkPosWithinBoard(pos) == false) {
+        return;
+    }
+
+    Entity* entityRef = grid.get(pos.y).get(pos.x).getEntity();
+    grid.get(pos.y).get(pos.x).setEntity(NULL);
+    delete entityRef;
+}
+
+void Board::moveEntity(AbsolutePosition epos, AbsolutePosition tgtpos) {
+
+    Entity* tgtEntity = getEntityAt(epos);
+    
+    // GUARD movement is valid e.g tgtpos has no entities on it already
+    if(getEntityAt(tgtpos) != NULL && tgtEntity != NULL) {
+        return;
+    }
+
+    int x = epos.x; int y = epos.y;
+    int tgtX = tgtpos.x; int tgtY = tgtpos.y;
+
+    // update entity pos
+    tgtEntity->setPos(tgtX, tgtY);
+
+    // update board pointers
+    grid.get(y).get(x).moveEntity(grid.get(tgtY).get(tgtX));
 }
 
 Tile* Board::getTileAt(AbsolutePosition pos) {
@@ -114,5 +152,5 @@ Tile* Board::getTileAt(AbsolutePosition pos) {
         return NULL;
     }
     
-    return &grid.get(pos.x).get(pos.y).getTile();
+    return &grid.get(pos.y).get(pos.x).getTile();
 }
