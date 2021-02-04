@@ -12,6 +12,7 @@ public:
     void addToBottom(std::string s);
     State* popFromBottom();
     State* getBottom();
+    std::string getDescription();
 };
 
 class FSMStack {
@@ -36,7 +37,11 @@ public:
     Stateful() : fsmStack(), stash() {}
     virtual ~Stateful();
     void stashState();
+    //Take out from stash
+
     void unstashState();
+
+
     virtual void runState() = 0;
 };
 
