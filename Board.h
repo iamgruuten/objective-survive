@@ -17,7 +17,7 @@ public:
     void display();
 
     // Entity related methods
-    Entity& getEntity();
+    Entity* getEntity();
     void setEntity(Entity *e);
     Entity* popEntity();
     void moveEntity(Space& s);
@@ -40,7 +40,12 @@ public:
     void display();
 
     bool checkPosWithinBoard(AbsolutePosition pos);
+
     Entity* getEntityAt(AbsolutePosition pos);
+    void spawnEntityCopyAt(Entity* e, AbsolutePosition pos);
+    void despawnEntityAt(AbsolutePosition pos);
+    void moveEntity(AbsolutePosition epos, AbsolutePosition tgtpos);
+
     Tile* getTileAt(AbsolutePosition pos);
 };
 
