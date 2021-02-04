@@ -3,82 +3,37 @@
 
 
 // State implementation
-State::~State(){
-    //Deconstructor
-    State* temp = bottom;
-
-    while(temp != NULL){
-        bottom = bottom->bottom;
-        delete bottom;
-        temp = bottom;
-    }
-    
-}
-
-void State::addToBottom(std::string s){
-    State* state = new State;
-    state->description = s;
-
-    if(bottom != NULL){
-        State* tempState = bottom;
-        state->bottom = tempState;
-    }
-
+void State::setBottom(State *state){
     bottom = state;
-}
-
-std::string State::getDescription(){
-    return description;
-}
-
-State* State::popFromBottom(){
-    if(bottom != NULL){
-        State* tempState = bottom;
-
-        if(bottom->bottom != NULL){
-            bottom = bottom->bottom;
-
-            tempState->description = "";
-        }
-        return tempState;
-        delete tempState;
-    }
-
 }
 
 State* State::getBottom(){
     return bottom;
 }
 
-
+std::string State::getDescription(){
+    return description;
+}
 
 // FSMStack implementation
 
 FSMStack::~FSMStack() {
     //Deconstructor
-    State* temp = top;
-
-    while(temp != NULL){
-        top = top->getBottom();
-        delete top;
-        temp = top;
+    while(size > 0) {
+        popState();
     }
 }
 
 std::string FSMStack::popState(){
-    std::string description = ""; 
+    std::string description = "";
 
-    if(size != 0){
+    if(size > 0){
         State* tempState = top;
+        top = top->getBottom();
 
-        if(top->getBottom() != NULL){
-            top = top->getBottom();
-
-            tempState->popFromBottom();
-        }
         description = tempState->getDescription();
-
         delete tempState;
+        size --;
     }
 
     return description;
@@ -89,29 +44,15 @@ std::string FSMStack::getTopState(){
 }
 
 void FSMStack::pushState(std::string description){
-    State* state = new State;
-    state->addToBottom(description);
-
-    if(top != NULL){
-        State* tempState = top;
-        state = tempState->getBottom();
-        top = state;
-    }else{
-         State* tempState = state->getBottom();
-         tempState = NULL;
-         top = tempState;
-    }
+    State* state = new State(description);
+    state->setBottom(top);
+    top = state;
+    size ++;
 }
 
 // Stateful implementation
 
-Stateful::~Stateful() {
-        //Deconstructor
-    FSMStack tempStash = stash;
-    FSMStack tempStack = fsmStack;
-    tempStash.~FSMStack();
-    tempStack.~FSMStack();
-}
+Stateful::~Stateful() {}
 
 void Stateful::stashState(){
     std::string description = fsmStack.popState();

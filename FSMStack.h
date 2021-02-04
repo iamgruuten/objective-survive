@@ -8,10 +8,9 @@ private:
     State *bottom;
 public:
     State() : description("\0"), bottom(NULL) {}
-    ~State();
     State(std::string description) : description(description), bottom(NULL) {}
-    void addToBottom(std::string s);
-    State* popFromBottom();
+    
+    void setBottom(State *state);
     State* getBottom();
     std::string getDescription();
 
@@ -38,11 +37,9 @@ protected:
 public:
     Stateful() : fsmStack(), stash() {}
     virtual ~Stateful();
+
     void stashState();
-    //Take out from stash
-
     void unstashState();
-
 
     virtual void runState() = 0;
 };
