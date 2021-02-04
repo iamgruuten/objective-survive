@@ -66,13 +66,7 @@ FSMStack::~FSMStack() {
 }
 
 std::string FSMStack::popState(){
-    std::string description; 
-
-    if(size != 0){
-        State* tempState = top;
-        description = tempState->getDescription();
-        delete tempState;
-    }
+    std::string description = ""; 
 
     if(size != 0){
         State* tempState = top;
