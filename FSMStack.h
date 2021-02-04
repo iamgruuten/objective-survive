@@ -8,6 +8,7 @@ private:
     State *bottom;
 public:
     State() : description("\0"), bottom(NULL) {}
+    ~State();
     State(std::string description) : description(description), bottom(NULL) {}
     void addToBottom(std::string s);
     State* popFromBottom();

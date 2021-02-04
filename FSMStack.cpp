@@ -15,8 +15,6 @@ State::~State(){
     
 }
 
-
-
 void State::addToBottom(std::string s){
     State* state = new State;
     state->description = s;
