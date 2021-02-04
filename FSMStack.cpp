@@ -40,7 +40,7 @@ State* State::popFromBottom(){
 
             tempState->description = "";
         }
-
+        return tempState;
         delete tempState;
     }
 
@@ -66,12 +66,15 @@ FSMStack::~FSMStack() {
 }
 
 std::string FSMStack::popState(){
+    std::string description; 
+
     if(size != 0){
         State* tempState = top;
+        description = tempState->getDescription();
         delete tempState;
     }
 
-        if(size != 0){
+    if(size != 0){
         State* tempState = top;
 
         if(top->getBottom() != NULL){
@@ -79,10 +82,12 @@ std::string FSMStack::popState(){
 
             tempState->popFromBottom();
         }
+        description = tempState->getDescription();
 
         delete tempState;
     }
 
+    return description;
 }
 
 std::string FSMStack::getTopState(){
