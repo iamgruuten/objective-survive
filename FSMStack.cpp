@@ -110,19 +110,18 @@ void FSMStack::pushState(std::string description){
 
 Stateful::~Stateful() {
         //Deconstructor
-    FSMStack* temp = stash;
-    temp->~FSMStack();
-    FSMStack* temp = fsmStack;
-    temp->~FSMStack();
-
+    FSMStack tempStash = stash;
+    FSMStack tempStack = fsmStack;
+    tempStash.~FSMStack();
+    tempStack.~FSMStack();
 }
 
 void Stateful::stashState(){
-    std::string description = fsmStack->popState();
-    stash->pushState(description);
+    std::string description = fsmStack.popState();
+    stash.pushState(description);
 }
 
 void Stateful::unstashState(){
-    std::string description = stash->popState();
-    fsmStack->pushState(description);
+    std::string description = stash.popState();
+    fsmStack.pushState(description);
 }
