@@ -1,5 +1,4 @@
 #include "Queue.h"
-#define NULL 0
 
 template <typename T>
 Queue<T>::~Queue() {
@@ -29,6 +28,7 @@ bool Queue<T>::dequeue() {
         QueueNode<T> *temp = front;
         front = front->next;
         delete temp;
+        return true;
     }
     else {
         return false;
@@ -56,5 +56,5 @@ T Queue<T>::getFront() {
 
 template <typename T>
 bool Queue<T>::isEmpty() {
-    return front == NULL;
+    return front == 0; // 0 <=> NULL
 }
