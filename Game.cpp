@@ -80,14 +80,16 @@ void Game::runMenu() {
 
 void Game::runGame() {
     //TODO: Import board, entities
-    std::ofstream boardMap("board.csv");
+    std::ifstream boardMap("board.csv");
     VArray<std::string> map = VArray<std::string>();
     std::string line;
 
-    while (getline(boardMap, line,'\n')){
-        map.push(line)
+    while(std::getline(boardMap, line)){
+        map.push(line);
+        std::cout << line;
     }
 
+    
     //TODO: Spawn board and set tile states
     //TODO: Spawn entities using .copy()
     //TODO: Add impt entities to entity turn array

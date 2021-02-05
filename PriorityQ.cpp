@@ -1,4 +1,5 @@
 #include "PriorityQ.h"
+#include <iostream>
 
 template<class T> HeapPriorityQueue<T>::HeapPriorityQueue(bool (*comp)(T obj1, T obj2))
 {
@@ -13,10 +14,12 @@ template<class T> bool HeapPriorityQueue<T>::isEmpty()
 template<class T> void HeapPriorityQueue<T>::insert(T obj)
 {
     heap.push(obj);
+
+    //Get last index to heapifyup
     heapifyUp(heap.size()-1);
 }
 
-template<class T> void HeapPriorityQueue<T>::pop()
+template<class T> void HeapPriorityQueue<T>::remove()
 {
     if(!isEmpty())
     {
@@ -28,7 +31,11 @@ template<class T> void HeapPriorityQueue<T>::pop()
 }
 
 //TODO Search Implementation
-//TODO 
+template<class T> T HeapPriorityQueue<T>::search(){
+
+}
+
+// 
 
 template<class T> T HeapPriorityQueue<T>::getTop()
 {
