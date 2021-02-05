@@ -1,114 +1,110 @@
-#include<string>
-#include<iostream>
 #include "BinaryHeapPQ.h"
+#include "VArray.cpp"
+#include <iostream>
 
 template <typename T>
-void BinaryHeapPQ<T>::swap(int *a, int *b){
-    int c;
-    c = *a;
-    *a = *b;
-    *b = c;
-}
-
-template <typename T>
-int BinaryHeapPQ<T>::get_right_child(int ArrayQ[], int index){
-    if((((2*index)+1) < array_size) && (index >= 1))
-    {
-        return (2*index)+1;
-    }
-    return -1;
-}
-
-template <typename T>
-int BinaryHeapPQ<T>::get_left_child(int ArrayQ[], int index){
-    if(((2*index) < array_size) && (index >= 1))
-    {
-        return 2*index;
-    }
-    return -1;
-}
-template <typename T>
-int BinaryHeapPQ<T>::get_parent(int ArrayQ[], int index){
-    if ((index > 1) && (index < array_size)) {
-        return index/2;
-    }
-    return -1;
-}
-template <typename T>
-void BinaryHeapPQ<T>::max_heapify(int ArrayQ[], int index){
-    int left = get_left_child(ArrayQ, index);
-    int right = get_right_child(ArrayQ, index);
-
-    int max = index;
-
-    if((left <= heap_size) && (left >0)){
-        if(ArrayQ[left] > ArrayQ[max]){
-            max = left;
-        }
-    }
-
-    if((right <= heap_size && (right > 0))){
-        if((ArrayQ[right] > ArrayQ[max])){
-            max = right;
-        }
-    }
-
-    if(max != index){
-      swap(&ArrayQ[index], &ArrayQ[max]);
-      max_heapify(ArrayQ, max);  
+BinaryHeapPQ<T>::BinaryHeapPQ(VArray< Node<T> > Node) : mHeap(Node) {
+    for(int index = Node.getSize()-1; index >= 0; index--){
+        heapifyDown(mHeap[index], index);
     }
 }
-template <typename T>
-void BinaryHeapPQ<T>::build_max_heap(int ArrayQ[]){
 
-  for(int i=heap_size/2; i>=1; i--) {
-    max_heapify(ArrayQ, i);
+template <typename T>
+void BinaryHeapPQ<T>::changevalue(int index, T value){
+    mHeap[index].set(value, index);
+}
+
+//Return index of smallest child of min heap
+template <typename T>
+int BinaryHeapPQ<T>::minchild(int index){
+    
+  if(2*index+1 >= mHeap.getSize()){ 
+      //if the index is more than halfway through the array
+    return 0; //no children
+  }
+  else{ 
+      //otherwise, if the index is in the first half of the array
+    if(2*index+2 >= mHeap.getSize()){
+        return 2 * index + 1; //there is only 1 child, so return it
+    }
+    else{
+        //if there is more than 1 child
+      if(mHeap.get(2*index+1).value < mHeap.get(2*index+2).value){
+	    return 2*index+1;
+	}
+	else{
+	  return 2*index+2;
+	}     
+    }
   }
 }
+
 template <typename T>
-int BinaryHeapPQ<T>::maximum(int ArrayQ[]){
-    return ArrayQ[1];
+void BinaryHeapPQ<T>::heapifyDown(Node<T> nodeV, int index){
+  int currentIndex = minchild(index);
+  while(currentIndex != 0 && mHeap.get(currentIndex).value < nodeV.value){
+    Node<T> temp = mHeap.get(index);
+    mHeap.get(index).set(mHeap.get(currentIndex)); 
+    mHeap.get(index).position = index;
+    mHeap.get(currentIndex) = temp; 
+    mHeap.get(currentIndex).position = currentIndex;
+    index = currentIndex;
+    currentIndex = minchild(index);
+  }
+
+  mHeap.get(index).set(nodeV);
+  mHeap.get(index).position.set(index);
 }
 
 template <typename T>
-int BinaryHeapPQ<T>::extract(int ArrayQ[]){
-    int maxm = ArrayQ[1];
-    ArrayQ[1] = ArrayQ[heap_size];
+void BinaryHeapPQ<T>::heapifyUp(Node<T> nodeV, int index){
+    int p = index >> 1;
 
-    heap_size = heap_size - 1;
-    max_heapify(ArrayQ, 1);
-    return maxm;
-}
+    while(index != 0 && mHeap.get(p).value > nodeV.value){
+        Node<T> temp = mHeap.get(index);
+        mHeap.get(index).set(mHeap.get(p)); 
+        mHeap.get(index).position.set(index);
+        mHeap.get(p) = temp;
+        mHeap.get(p).position.set(p);
 
-
-template <typename T>
-void BinaryHeapPQ<T>::increase_key(int ArrayQ[], int index, T key){
-    ArrayQ[index] = key;
-    while((index > 1) && (ArrayQ[get_parent(ArrayQ, index)] < ArrayQ[index])) {
-        swap(&ArrayQ[index], &ArrayQ[get_parent(ArrayQ, index)]);
-        index = get_parent(ArrayQ, index);
+        index = p;
+        p = index >> 1;
     }
 }
 
+//Remove and extract minimum
 template <typename T>
-void BinaryHeapPQ<T>::decrease_key(int ArrayQ[], int index, T key){
-    ArrayQ[index] = key;
-    max_heapify(ArrayQ, index);
-
-}
-
-template <typename T>
-void BinaryHeapPQ<T>::insert(int ArrayQ[], T key){
-    heap_size = heap_size + 1;
-    ArrayQ[heap_size] = -1*INF;
-    increase_key(ArrayQ, heap_size, key);
-}
-
-template <typename T>
-void BinaryHeapPQ<T>::print_heap(int ArrayQ[]){
-
-  for(int i = 1; i <= heap_size; i++) {
-    printf("%d\n",ArrayQ[i]);
+Node<T>* BinaryHeapPQ<T>::deletemin() {
+  if(mHeap.get_size() == 0){
+    return 0;
   }
-  printf("\n");
+  else{
+    Node<T> nodeV = mHeap.get(0);
+    heapifyDown(mHeap.get(mHeap.get_size() - 1), 0);
+    mHeap.remove(mHeap.get_size() - 1);
+    return &nodeV;
+  }
+}
+
+template <typename T>
+void BinaryHeapPQ<T>::decreasekey(Node<T> nodeV){
+  heapifyUp(nodeV, nodeV.position);
+}
+
+template <typename T>
+Node<T> BinaryHeapPQ<T>::getnode(int index){
+  return mHeap.get(index);
+  
+}
+
+template <typename T>
+int BinaryHeapPQ<T>::size(){
+  return mHeap.get_size();
+}
+
+template <typename T>
+void BinaryHeapPQ<T>::printqueue(){
+  for(int index = 0; index < mHeap.getSize(); index++){
+    std::cout << "key: " << mHeap.get(index).key << " value: " << mHeap.get(index).value << " position: " << mHeap.get(index).position << std::endl;
+  }
 }
