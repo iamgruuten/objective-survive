@@ -1,7 +1,7 @@
 #ifndef MAXHEAP_H
 #define MAXHEAP_H
 
-#include<VArray.h>
+#include "VArray.h"
 
 template<class T>
 class HeapPriorityQueue
@@ -16,6 +16,8 @@ class HeapPriorityQueue
         void remove();
         //return the highest priority item currently in the queue.
         T getTop();
+        //return the search index of a node
+        T search();
     private:
         //return true if obj1 compares less than obj2
         bool (*compare)(T obj1, T obj2);
