@@ -1,6 +1,6 @@
 #include "Game.h"
 #include "FSMStack.h"
-#include "VArray.h"
+#include "VArray.cpp"
 #include "Tile.h"
 
 #include <fstream>

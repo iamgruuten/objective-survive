@@ -39,6 +39,10 @@ void Position::movePosition(Directions dir) {
     }
 }
 
+bool Position::operator==(Position rhs) {
+    return x == rhs.x && y == rhs.y;
+}
+
 // RelativePosition implementation
 
 AbsolutePosition RelativePosition::getAbsolutePos(Position origin) {

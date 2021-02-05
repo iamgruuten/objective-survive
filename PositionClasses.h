@@ -19,6 +19,9 @@ public:
     int getL1Distance(Position* a, Position* b);
     void updatePosition(int x, int y);
     void movePosition(Directions dir);
+
+    // operators
+    bool operator==(Position rhs);
 };
 
 class AbsolutePosition : public Position {
