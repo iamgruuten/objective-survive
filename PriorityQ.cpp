@@ -30,12 +30,9 @@ template<class T> void HeapPriorityQueue<T>::remove()
     }
 }
 
-//TODO Search Implementation
 template<class T> T HeapPriorityQueue<T>::search(){
 
 }
-
-// 
 
 template<class T> T HeapPriorityQueue<T>::getTop()
 {
