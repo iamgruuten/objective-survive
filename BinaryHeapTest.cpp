@@ -1,20 +1,25 @@
 #include<string>
 #include<iostream>
 #include "BinaryHeapPQ.h"
-#include "VArray.h"
+#include "BinaryHeapPQ.cpp"
+//#include "VArray.cpp"
 
 int main(){
     VArray<Node<int>> nodes;
-    VArray<int> weights = {5, 8, 5, 18, 18, 17, 19, 21};
+    VArray<int> weights;
+    int arrayA[] = {5, 8, 5, 18, 18, 17, 19, 21};
+    for (int i:arrayA){
+        weights.push(i);
+    }
 
     for(int i = 0; i < weights.getSize(); i++){
         Node<int> n;
         n.key = i;
-        n.value = weights[i];
+        n.value = weights.get(i);
         nodes.push(n);
     }
     
-    BinaryHeapPQ<> pq = BinaryHeapPQ<>(nodes);
+    BinaryHeapPQ<int> pq = BinaryHeapPQ<int>(nodes);
     pq.printqueue();
 
     pq.deletemin();

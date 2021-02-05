@@ -13,7 +13,7 @@ struct Node {
 template <typename T>
 class BinaryHeapPQ {
  public:
-  BinaryHeapPQ(VArray<Node<T> >);  
+  BinaryHeapPQ(VArray<Node<T> > node);  
   void printqueue();
   Node<T>* deletemin();
   void decreasekey(Node<T> x);

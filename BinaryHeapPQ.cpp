@@ -3,15 +3,15 @@
 #include <iostream>
 
 template <typename T>
-BinaryHeapPQ<T>::BinaryHeapPQ(VArray< Node<T> > Node) : mHeap(Node) {
-    for(int index = Node.getSize()-1; index >= 0; index--){
-        heapifyDown(mHeap[index], index);
+BinaryHeapPQ<T>::BinaryHeapPQ(VArray< Node<T> > node) : mHeap(node) {
+    for(int index = node.getSize()-1; index >= 0; index--){
+        heapifyDown(mHeap.get(index), index);
     }
 }
 
 template <typename T>
 void BinaryHeapPQ<T>::changevalue(int index, T value){
-    mHeap[index].set(value, index);
+    mHeap.set(value, index);
 }
 
 //Return index of smallest child of min heap
@@ -44,16 +44,17 @@ void BinaryHeapPQ<T>::heapifyDown(Node<T> nodeV, int index){
   int currentIndex = minchild(index);
   while(currentIndex != 0 && mHeap.get(currentIndex).value < nodeV.value){
     Node<T> temp = mHeap.get(index);
-    mHeap.get(index).set(mHeap.get(currentIndex)); 
+    mHeap.get(currentIndex) = index; 
+
     mHeap.get(index).position = index;
     mHeap.get(currentIndex) = temp; 
     mHeap.get(currentIndex).position = currentIndex;
     index = currentIndex;
     currentIndex = minchild(index);
-  }
+  } 
 
-  mHeap.get(index).set(nodeV);
-  mHeap.get(index).position.set(index);
+  mHeap.get(index) = nodeV;
+  mHeap.get(index).position = index;
 }
 
 template <typename T>
@@ -62,10 +63,10 @@ void BinaryHeapPQ<T>::heapifyUp(Node<T> nodeV, int index){
 
     while(index != 0 && mHeap.get(p).value > nodeV.value){
         Node<T> temp = mHeap.get(index);
-        mHeap.get(index).set(mHeap.get(p)); 
-        mHeap.get(index).position.set(index);
+        mHeap.get(index) = mHeap.get(p); 
+        mHeap.get(index).position = index;
         mHeap.get(p) = temp;
-        mHeap.get(p).position.set(p);
+        mHeap.get(p).position = p;
 
         index = p;
         p = index >> 1;
@@ -75,14 +76,14 @@ void BinaryHeapPQ<T>::heapifyUp(Node<T> nodeV, int index){
 //Remove and extract minimum
 template <typename T>
 Node<T>* BinaryHeapPQ<T>::deletemin() {
-  if(mHeap.get_size() == 0){
+  if(mHeap.getSize() == 0){
     return 0;
   }
   else{
-    Node<T> nodeV = mHeap.get(0);
-    heapifyDown(mHeap.get(mHeap.get_size() - 1), 0);
-    mHeap.remove(mHeap.get_size() - 1);
-    return &nodeV;
+    Node<T> a = mHeap.get(0);
+    heapifyDown(mHeap.get(mHeap.getSize() - 1), 0);
+    mHeap.remove(mHeap.getSize() - 1);
+    return &a;
   }
 }
 
@@ -99,7 +100,7 @@ Node<T> BinaryHeapPQ<T>::getnode(int index){
 
 template <typename T>
 int BinaryHeapPQ<T>::size(){
-  return mHeap.get_size();
+  return mHeap.getSize();
 }
 
 template <typename T>
