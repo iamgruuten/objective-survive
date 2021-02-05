@@ -11,13 +11,15 @@ VArray<T>::VArray() {
 
 template <typename T>
 VArray<T>::VArray(int initialCapacity) {
-    size = 0;
+    size = initialCapacity;
     capacity = initialCapacity;
     items = new T[initialCapacity];
 }
 
 template <typename T>
 VArray<T>::~VArray() {
+    // Deconstructor
+    delete[] items;
 }
 
 template <typename T>
@@ -32,8 +34,9 @@ void VArray<T>::resize() {
 
     // swap arrays and deallocate temp array
     capacity *= 2;
+    T* swap = items;
     items = temp;
-    delete[] temp;
+    delete[] swap;
 }
 
 template <typename T>
