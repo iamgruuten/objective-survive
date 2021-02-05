@@ -132,8 +132,18 @@ void Board::moveEntity(AbsolutePosition epos, AbsolutePosition tgtpos) {
 
     Entity* tgtEntity = getEntityAt(epos);
     
-    // GUARD movement is valid e.g tgtpos has no entities on it already
-    if(getEntityAt(tgtpos) != NULL && tgtEntity != NULL) {
+    // GUARD movement is valid e.g tgtpos has no entities on it already, entity is movable
+    if(getEntityAt(tgtpos) != NULL && tgtEntity != NULL && tgtEntity->canMove()) {
+        return;
+    }
+
+    // TEST tile state to see if entity is killed by movement
+    Tile* tgtTile = getTileAt(tgtpos);
+    if(tgtTile != NULL && tgtTile->getState() == hole) {
+        // entity drops into hole and dies
+        tgtEntity->kill();
+
+        // don't update movement for dead entity
         return;
     }
 

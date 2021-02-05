@@ -47,6 +47,8 @@ public:
     void executeSpell(int index, Board& board, int dist, Directions facing);
     
     virtual void runState() = 0;
+
+    void kill();
     virtual void onDeath() = 0;
 };
 

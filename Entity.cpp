@@ -29,7 +29,9 @@ void Entity::deductHp(int val) {
     hp -= val;
 
     //CHECK DEATH
-    onDeath();
+    if(hp < 0) {
+        kill();
+    }
 }
 
 void Entity::setArmor(int val) {
@@ -67,4 +69,9 @@ void Entity::removeSpell(int index) {
 void Entity::executeSpell(int index, Board& board, int dist, Directions facing) {
     Spell spell = spells[index];
     spell.activateSpell(board, dist, facing, pos);
+}
+
+void Entity::kill() {
+    boardRef->despawnEntityAt(pos);
+    onDeath();
 }
