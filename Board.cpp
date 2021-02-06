@@ -202,7 +202,9 @@ VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     Vec2D relPos = Vec2D(0, 1);
 
     for(int _=0; _<4; _++) {
-        if(posIsWithinBoard(relPos + pos) && getEntityAt(relPos + pos) == nullptr) {
+        if(posIsWithinBoard(relPos + pos) 
+        && getEntityAt(relPos + pos) == nullptr
+        && getTileAt(relPos + pos)->getState() != hole) {
             neighbours.push(relPos + pos);
         }
 
