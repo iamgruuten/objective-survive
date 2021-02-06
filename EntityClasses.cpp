@@ -1,6 +1,6 @@
 #include "EntityClasses.h"
 
-Walls::Walls: Entity(3, 0, 0, false) {
+Walls::Walls(): Entity(3, 0, 0, false) {
 
 
 }

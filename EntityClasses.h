@@ -5,7 +5,7 @@
 
 class Walls : public Entity{
 public:
-    Walls(int x, int y);
+    Walls(int hp, int armor, int maxmp, bool moveable);    
     Walls();
 };
 
