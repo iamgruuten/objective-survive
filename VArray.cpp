@@ -10,8 +10,8 @@ VArray<T>::VArray() {
 }
 
 template <typename T>
-VArray<T>::VArray(int initialCapacity) {
-    size = initialCapacity;
+VArray<T>::VArray(int initialSize, int initialCapacity) {
+    size = initialSize;
     capacity = initialCapacity;
     items = new T[initialCapacity];
 }
