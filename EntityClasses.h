@@ -40,4 +40,15 @@ public:
     void onDeath();
 };
 
+class Target : public Entity {
+public:
+    Target();
+    Target(int hp, int armor);
+    ~Target();
+    Entity* clone();
+    void runState();
+    void display();
+    void onDeath();
+};
+
 #endif  

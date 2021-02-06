@@ -7,7 +7,7 @@
 #include "Board.h"
 #include "VArray.cpp"
 
-Entity::Entity(int hp, int armor, int maxmp, bool moveable) : pos(Vec2D(0, 0)), boardRef(NULL) {
+Entity::Entity(int hp, int armor, int maxmp, bool moveable, bool actor) : pos(Vec2D(0, 0)), boardRef(NULL), isActor(actor) {
     hp = hp;
     armor = armor;
     maxMovePoints = maxmp;
@@ -48,6 +48,10 @@ int Entity::getArmor() {
 
 bool Entity::canMove() {
     return isMoveable;
+}
+
+bool Entity::canAct() {
+    return isActor;
 }
 
 void Entity::setBoardRef(Board* b) {

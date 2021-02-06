@@ -8,6 +8,7 @@
 #include "VArray.cpp"
 
 #include <iostream>
+#include <stdlib.h> // rand, srand
 
 // Space implementation
 Space::Space() {
@@ -126,10 +127,25 @@ void Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
     newEntity->setPos(pos.x, pos.y);
     newEntity->setBoardRef(this);
     spaces->get(pos.y)->get(pos.x)->entity = newEntity;
+
+    if(newEntity->canAct()) {
+        actors.push(newEntity);
+    }
 }
 
 void Board::despawnEntityAt(Vec2D pos) {
-    delete spaces->get(pos.y)->get(pos.x)->entity;
+    Entity *e = spaces->get(pos.y)->get(pos.x)->entity;
+    if(e->canAct()) {
+        for(int i=0; i<actors.getSize(); i++) {
+            if(actors.get(i) == e) {
+                actors.remove(i);
+                break;
+            }
+        }
+    }
+
+    spaces->get(pos.y)->get(pos.x)->entity = nullptr;
+    delete e;
 }
 
 Tile* Board::getTileAt(Vec2D pos) {
@@ -217,4 +233,21 @@ VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     }
 
     return neighbours;
+}
+
+VArray<Entity*> Board::getActors() {
+    return actors;
+}
+
+Vec2D Board::randomValidPos() {
+    srand(time(NULL));
+    
+    Vec2D pos;
+    do {
+        int randX = rand()%(width-1);
+        int randY = rand()%(height-1);
+        pos.updatePosition(randX, randY);
+    } while(getEntityAt(pos) != nullptr || getTileAt(pos)->getState() == hole);
+
+    return pos;
 }

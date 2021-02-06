@@ -4,6 +4,9 @@
 #ifndef game_h
 #define game_h
 #include "FSMStack.h"
+#include "Queue.h"
+#include "Entity.h"
+#include <string>
 
 enum GameStates: int {
     quit = -1, mainMenu = 0, running = 1
@@ -11,6 +14,8 @@ enum GameStates: int {
 
 class Game : protected Stateful {
 private:
+    Board* b;
+    Queue<Entity*>* turnQueue;
 public:
     Game();
     ~Game();
@@ -20,7 +25,10 @@ public:
 
     void start();
     void runMenu();
+    void initGame();
     void runGame();
+    void finishGame();
+    void eventTick();
 };
 
 #endif

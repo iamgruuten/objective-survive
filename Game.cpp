@@ -7,17 +7,25 @@
 #include "Tile.h"
 #include "EntityClasses.h"
 #include "Vec2D.h"
-//#include "csvParser.h"
+#include "CSVParser.h"
 
-#include <fstream>
 #include <string>
 #include <iostream>
 
 Game::Game() : Stateful() {
+    b = nullptr;
     pushState(mainMenu);
+    turnQueue = new Queue<Entity*>();
 }
 
-Game::~Game() {}
+Game::~Game() {
+    if(b != nullptr) {
+        delete b;
+    }
+    if(turnQueue != nullptr) {
+        delete turnQueue;
+    }
+}
 
 void Game::pushState(GameStates state) {
     switch(state) {
@@ -47,7 +55,7 @@ void Game::runState() {
             runState();
             break;
         case running:
-            runGame();
+            initGame();
             // return to main menu after game ends
             pushState(mainMenu);
             runState();
@@ -84,21 +92,42 @@ void Game::runMenu() {
     }
 }
 
+void Game::initGame() {
+    std::string filename;
+    std::cout << "Enter filename of map to load: ";
+    std::cin >> filename;
+
+    b = CSVParser::parseMapFile(filename);
+    VArray<Entity*> actors = b->getActors();
+
+    for(int i=0; i<actors.getSize(); i++) {
+        turnQueue->enqueue(actors.get(i));
+    }
+
+    runGame();
+}
+
+void Game::finishGame() {
+
+    // reset turn queue
+    while(!turnQueue->isEmpty()) {
+        turnQueue->dequeue();
+    }
+
+    // reset board
+    Board* temp = b;
+    b = nullptr;
+    delete temp;
+}
+
 void Game::runGame() {
-    //TODO: Spawn board and set tile states
-
-    //TODO: Spawn entities using .copy()
-    //Walls w;
-    //Vec2D vec = new Vec2D()
-    //w.setPos();
-    //w.clone();
+    // main application loop
+    while(true) {
+        b->display();
+        //TODO: Print menu bar and show available actions
+    }
     
-
-    //TODO: Add impt entities to entity turn array
-    //TODO: Initialise event priority queue
-    //TODO: Run event queue until break event occurs
-    //TODO: Show end score
-    //TODO: end and return to title
+    finishGame();
 }
 
 void Game::start() {

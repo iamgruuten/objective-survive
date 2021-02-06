@@ -6,9 +6,9 @@
 #include "Pathfinder.h"
 #include <iostream>
 
-Walls::Walls(): Entity(3, 0, 0, false) {}
+Walls::Walls(): Entity(3, 0, 0, false, false) {}
 
-Walls::Walls(int hp, int armor): Entity(hp, armor, 0, false) {}
+Walls::Walls(int hp, int armor): Entity(hp, armor, 0, false, false) {}
 
 Walls::~Walls() {}
 
@@ -30,11 +30,11 @@ void Walls::onDeath(){
 }
 
 //Melee
-Melee::Melee(): Entity(3, 3, 2, true) {
+Melee::Melee(): Entity(3, 3, 2, true, true) {
     fsmStack.pushState("search");
 }
 
-Melee::Melee(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true) {
+Melee::Melee(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true, true) {
     fsmStack.pushState("search");
 }
 
@@ -80,11 +80,11 @@ int Melee::getScoreForTileState(TileState tileState) {
 }
 
 //Ranged
-Ranged::Ranged(): Entity(3, 2, 1, true) {
+Ranged::Ranged(): Entity(3, 2, 1, true, true) {
     fsmStack.pushState("SpawnRanged");
 }
 
-Ranged::Ranged(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true) {
+Ranged::Ranged(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true, true) {
 }
 
 Ranged::~Ranged() {}
@@ -115,4 +115,22 @@ void Ranged::display(){
 void Ranged::onDeath(){
     Board *board = boardRef;
     board->despawnEntityAt(pos);
+}
+
+Target::Target() : Entity(10, 0, 0, false, false) {}
+
+Target::Target(int hp, int armor) : Entity(hp, armor, 0, false, false) {}
+
+Entity* Target::clone() {
+    return new Target(hp, armor);
+}
+
+void Target::runState() {}
+
+void Target::display() {
+    std::cout << "!";
+}
+
+void Target::onDeath() {
+    boardRef->despawnEntityAt(pos);
 }

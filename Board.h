@@ -23,6 +23,7 @@ private:
     int width;
     int height;
     VArray< VArray< Space* >* > *spaces;
+    VArray<Entity*> actors;
 
 public:
     Board(int w, int h);
@@ -41,6 +42,8 @@ public:
     void display();
 
     VArray<Vec2D> neighboursForSpaceAt(Vec2D pos);
+    VArray<Entity*> getActors();
+    Vec2D randomValidPos();
 };
 
 #endif
