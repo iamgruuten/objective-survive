@@ -56,7 +56,8 @@ class Walls : public Entity{
     private:
         int hp;
         int armor;
-
+        int thorn;
+        
         bool isMoveable;
     public:
         void setUp();

@@ -9,9 +9,10 @@
 #include <string>
 #include <iostream>
 
+#include "Vec2D.h"
 
 Board csvParser::LoadMap(std::string filePath){
-    Board board = new Board();
+    Board board = Board(12, 12);
 
     std::ifstream boardMap(filePath);
    std::string line;
@@ -25,6 +26,13 @@ Board csvParser::LoadMap(std::string filePath){
 
         while (getline(s, field,',')){
             x = x + 1;
+            //X refers to the x axis pos
+            //Y refers to the y axis pos
+            Tile t;
+            t.pushState(std::stoi(field))
+            Vec2D pos = Vec2D(x, y);
+
+            board.setTileAt(pos, t);
             
         }
         
@@ -50,8 +58,15 @@ csvParser::LoadEntities(std::string filePath, Board* board){
 
         while (getline(s, field,',')){
             x = x + 1;
-            AbsolutePosition pivot = AbsolutePosition(x,y);
             
+            //if inside the csv file is a 1, refers to spawn a mountain
+            if(field == 1){
+            Vec2D pos = Vec2D(x, y);
+            Entity e = Walls().setUp();
+
+                board.spawnEntityCopyAt(pos, e);
+            }
+            //else dont spawn anything
         }
         
     }

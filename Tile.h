@@ -4,6 +4,7 @@
 #include "Displayable.h"
 #include "FSMStack.h"
 
+//Configuration
 enum TileState: int {
     normal = 0, hole = 1, water = 2
 };

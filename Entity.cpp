@@ -78,6 +78,7 @@ void Entity::kill() {
 
 void Walls :: setUp(){
     hp = 100;
+    thorn = 10;
     armor = 0;
     isMoveable = false;
 }
