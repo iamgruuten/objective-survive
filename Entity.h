@@ -13,7 +13,7 @@ class Spell;
 class Board;
 
 class Entity : public Displayable, public Stateful {
-private:
+protected:
     int hp;
     int armor;
     int maxMovePoints;
