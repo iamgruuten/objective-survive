@@ -15,11 +15,16 @@ int main() {
     
 
     Board b = *CSVParser::parseMapFile("b.csv");
+<<<<<<< HEAD
     //Melee* m = new Melee();
     //b.spawnEntityCopyAt(Vec2D(4, 4), m);
     b.display(); 
+=======
+    Entity* e = b.getEntityAt(Vec2D(1,4));
+    b.display();
+>>>>>>> 47bf49a0662c3c0617f65a5bd2b457fb4a18c16e
 
-    //m->runState();
+    e->runState();
 
     //Game game = Game();
     //game.start();

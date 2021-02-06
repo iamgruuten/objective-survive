@@ -50,7 +50,7 @@ Entity* Melee::clone(){
 void Melee::runState(){
     std::string stateDesc = fsmStack.popState();
     if(stateDesc == "search") {
-        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(9,9));
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(6,13));
         std::cout << path.getSize() << std::endl;
         for(int i=0; i<path.getSize()-1; i++) {
             std::cout << (std::string) path.get(i) << std::endl;

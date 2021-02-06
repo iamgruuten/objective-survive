@@ -20,7 +20,7 @@ VArray<Vec2D> reconstructPath(CoordinateMap<Vec2D> cameFrom, Vec2D current) {
 }
 
 int h(Vec2D startPos, Vec2D endPos) {
-    return startPos.getL1DistanceTo(endPos);
+    return startPos.getL1DistanceTo(endPos) * 0.5;
 }
 
 int getValue(CoordinateMap<int> coordMap, Vec2D pos, int defaultVal) {
@@ -65,7 +65,7 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
         // tentative_gScore is the distance from start to the neighbor through current
 
         // get gScore gracefully
-        int currGScore = getValue(gScore, current, 9999);
+        int currGScore = getValue(gScore, current, INT_MAX);
 
         // iterate through neighbours
         for(int i=0; i<neighbours.getSize(); i++) {
@@ -77,7 +77,7 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
             int d = getScoreForTileState(tile->getState());
             int tentative_gScore = currGScore + d;
 
-            int neighbourGScore = getValue(gScore, neighbour, 9999);
+            int neighbourGScore = getValue(gScore, neighbour, INT_MAX);
             if(tentative_gScore < neighbourGScore) {
 
                 // This path to neighbor is better than any previous one. Record it!

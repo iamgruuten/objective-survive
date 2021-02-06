@@ -60,6 +60,9 @@ void Board::instantMoveEntityAt(Vec2D pos, Vec2D tgt) {
     Entity *e = getEntityAt(pos);
     spaces->get(pos.y)->get(pos.x)->entity = nullptr;
     spaces->get(tgt.y)->get(tgt.x)->entity = e;
+
+    // display movement
+    display();
 }
 
 void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
@@ -80,6 +83,7 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     if(delta == 0) {
         // no movement on this axis, should jump straight to next recursive call
         recursiveMoveEntityAt(pos, tgt, !useAxisX);
+        return;
     } else if(delta < 0) {
         delta = 1;
     } else {
@@ -118,9 +122,10 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
 }
 
 void Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
-    e->setPos(pos.x, pos.y);
-    e->setBoardRef(this);
-    spaces->get(pos.y)->get(pos.x)->entity = e->clone();
+    Entity* newEntity = e->clone();
+    newEntity->setPos(pos.x, pos.y);
+    newEntity->setBoardRef(this);
+    spaces->get(pos.y)->get(pos.x)->entity = newEntity;
 }
 
 void Board::despawnEntityAt(Vec2D pos) {
@@ -202,7 +207,9 @@ VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     Vec2D relPos = Vec2D(0, 1);
 
     for(int _=0; _<4; _++) {
-        if(posIsWithinBoard(relPos + pos) && getEntityAt(relPos + pos) == nullptr) {
+        if(posIsWithinBoard(relPos + pos) 
+        && getEntityAt(relPos + pos) == nullptr
+        && getTileAt(relPos + pos)->getState() != hole) {
             neighbours.push(relPos + pos);
         }
 
