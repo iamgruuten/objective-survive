@@ -16,9 +16,7 @@ BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
 }
 
 template <typename T>
-BHPriorityQueue<T>::~BHPriorityQueue() {
-    
-}
+BHPriorityQueue<T>::~BHPriorityQueue() {}
 
 template <typename T>
 int BHPriorityQueue<T>::getParentIndex(int childIndex) {
@@ -181,4 +179,14 @@ void BHPriorityQueue<T>::print() {
         std::cout << "Priority: " << ptr->priority << ", Val: " << ptr->val << std::endl;
     }
     std::cout << std::endl;
+}
+
+template <typename T>
+int BHPriorityQueue<T>::getSize() {
+    return queue.getSize();
+}
+
+template <typename T>
+bool BHPriorityQueue<T>::isEmpty() {
+    return getSize() == 0;
 }

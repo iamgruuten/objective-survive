@@ -111,6 +111,8 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
 }
 
 void Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
+    e->setPos(pos.x, pos.y);
+    e->setBoardRef(this);
     spaces->get(pos.y)->get(pos.x)->entity = e->clone();
 }
 
@@ -145,7 +147,7 @@ void Board::display() {
                 if(t != nullptr) {
                     t->display();
                 } else {
-                    std::cout << "█ ";
+                    std::cout << "█";
                 }
             }
             std::cout << " ";

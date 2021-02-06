@@ -39,6 +39,8 @@ public:
     int search(T val);
     void remove(T val);
     void print();
+    int getSize();
+    bool isEmpty();
 };
 
 #endif

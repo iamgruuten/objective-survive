@@ -7,7 +7,8 @@
 #include "VArray.h"
 
 // Forward declaration
-class AbsolutePosition;
+class Vec2D;
+class Board;
 enum TileState: int;
 
 class Pathfinder {
@@ -15,7 +16,7 @@ private:
 public:
     virtual ~Pathfinder();
     virtual int getScoreForTileState(TileState tileState) = 0;
-    VArray<AbsolutePosition> getPathToTarget(AbsolutePosition tgtPos);
+    VArray<Vec2D> getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos);
 };
 
 #endif
