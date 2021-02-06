@@ -11,7 +11,9 @@ BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
 }
 
 template <typename T>
-BHPriorityQueue<T>::~BHPriorityQueue() {}
+BHPriorityQueue<T>::~BHPriorityQueue() {
+    
+}
 
 template <typename T>
 int BHPriorityQueue<T>::getParentIndex(int childIndex) {
