@@ -59,16 +59,6 @@ public:
     virtual void onDeath() = 0;
 };
 
-class Walls : public Entity{
-    private:
-        int hp;
-        int armor;
-        int thorn;
-        
-        bool isMoveable;
-    public:
-        void setUp();
-        void deductHp(int hp);
-};
+
 
 #endif

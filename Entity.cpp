@@ -79,14 +79,3 @@ void Entity::kill() {
     boardRef->despawnEntityAt(pos);
     onDeath();
 }
-
-void Walls :: setUp(){
-    hp = 100;
-    thorn = 10;
-    armor = 0;
-    isMoveable = false;
-}
-
-void Walls::deductHp(int ddhp){
-    hp = hp - ddhp;
-}

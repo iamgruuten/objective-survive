@@ -1,5 +1,7 @@
 //Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Priority Queue using Binary Heap
+//Min Heap
 
 #include "BHPriorityQueue.h"
 #include "VArray.cpp"
@@ -85,6 +87,11 @@ void BHPriorityQueue<T>::recursiveDownHeap(int nodeIndex) {
     }
 }
 
+//Psuedocode
+/**Add the element to the bottom level of the heap at the leftmost open space.
+Compare the added element with its parent; if they are in the correct order, stop.
+If not, swap the element with its parent and return to the previous step.**/
+
 template <typename T>
 void BHPriorityQueue<T>::insert(int priority, T val) {
     // insert element at the leftmost open space (end of the array)
@@ -101,11 +108,19 @@ void BHPriorityQueue<T>::insert(int priority, T val) {
     }
 }
 
+//Psuedocode
+/**
+Replace the root of the heap with the last element on the last level.
+Compare the new root with its children; if they are in the correct order, stop.
+If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.)
+**/
+
 template <typename T>
 T BHPriorityQueue<T>::extract() {
     // GUARD queue has elements
     int size = queue.getSize();
     if(size == 0) {
+        
         throw std::out_of_range("OUT OF RANGE");
     }
 
