@@ -12,6 +12,7 @@
 // Space implementation
 Space::Space() {
     tile = new Tile();
+    entity = nullptr;
 }
 
 Space::~Space() {

@@ -50,9 +50,14 @@ Entity* Melee::clone(){
 void Melee::runState(){
     std::string stateDesc = fsmStack.popState();
     if(stateDesc == "search") {
-        VArray<Vec2D> path =  getPathToTarget(*boardRef, pos, Vec2D(5,5));
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(9,9));
         std::cout << path.getSize() << std::endl;
+        for(int i=0; i<path.getSize(); i++) {
+            Vec2D pos = path.get(i);
+            boardRef->setTileStateAt(pos, water);
+        }
     }
+    boardRef->display();
 }
 
 void Melee::display(){
@@ -70,7 +75,7 @@ int Melee::getScoreForTileState(TileState tileState) {
         case water:
             return 2;
         case hole:
-            return 99999;
+            return 999;
     }
 }
 

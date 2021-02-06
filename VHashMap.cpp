@@ -142,7 +142,6 @@ void VHashMap<Key, Value>::set(Key existingKey, Value newVal) {
 
     // search for item with matching key
     while(temp != NULL) {
-        std::cout << temp << std::endl;
         if(temp->key == existingKey) {
             temp->value = newVal;
         }

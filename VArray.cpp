@@ -48,7 +48,7 @@ void VArray<T>::resize() {
 template <typename T>
 void VArray<T>::push(T item) {
     // IF size is equal to capacity, resize array first
-    if(size == capacity) {
+    if(size == capacity && capacity < 999) {
         resize();
     }
 

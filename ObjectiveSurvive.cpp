@@ -14,7 +14,7 @@ int main() {
     b.display();
     
     Melee* m = new Melee();
-    b.spawnEntityCopyAt(Vec2D(3, 3), m);
+    b.spawnEntityCopyAt(Vec2D(4, 4), m);
     m->runState();
 
     //Game game = Game();

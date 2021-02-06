@@ -60,34 +60,27 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
             return reconstructPath(cameFrom, current);
         }
 
-        std::cout << (std::string) current << std::endl;
-
         VArray<Vec2D> neighbours = b.neighboursForSpaceAt(current);
         // d(current,neighbor) is the weight of the edge from current to neighbor
         // tentative_gScore is the distance from start to the neighbor through current
 
         // get gScore gracefully
-        int currGScore = getValue(gScore, current, INT_MAX);
+        int currGScore = getValue(gScore, current, 9999);
 
         // iterate through neighbours
         for(int i=0; i<neighbours.getSize(); i++) {
             Vec2D neighbour = neighbours.get(i);
             Tile *tile = b.getTileAt(neighbour);
 
-            std::cout << "N: " << (std::string) neighbour << std::endl;
-
             // d(current,neighbor) is the weight of the edge from current to neighbor
             // tentative_gScore is the distance from start to the neighbor through current
             int d = getScoreForTileState(tile->getState());
             int tentative_gScore = currGScore + d;
 
-            int neighbourGScore = getValue(gScore, neighbour, INT_MAX);
+            int neighbourGScore = getValue(gScore, neighbour, 9999);
             if(tentative_gScore < neighbourGScore) {
 
-                std::cout << "!" << std::endl;
-                std::cout << cameFrom.getSize() << std::endl;
                 // This path to neighbor is better than any previous one. Record it!
-                std::cout << (std::string) neighbour << ", " << (std::string) current << std::endl;
                 cameFrom.set(neighbour, current);
                 gScore.set(neighbour, tentative_gScore);
 
@@ -95,7 +88,6 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
                 fScore.set(neighbour, fscore);
 
                 if(openSet.search(neighbour) == -1) {
-                    std::cout << "---test2" << std::endl;
                     openSet.insert(fscore, neighbour);
                 }
             }

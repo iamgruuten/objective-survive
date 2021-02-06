@@ -14,7 +14,7 @@ struct VHashMapItem {
     VHashMapItem *next;
 
     VHashMapItem() {}
-    VHashMapItem(Key newKey, Value newVal) : key(newKey), value(newVal) {}
+    VHashMapItem(Key newKey, Value newVal) : key(newKey), value(newVal), next(0) {}
 };
 
 template <class Key, class Value>
