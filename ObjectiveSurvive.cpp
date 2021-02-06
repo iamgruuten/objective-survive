@@ -7,15 +7,18 @@
 #include "VArray.cpp"
 #include "EntityClasses.h"
 #include <iostream>
+#include "CSVParser.h"
 
 int main() {
     
-    Board b = Board(12, 12);
-    b.display();
     
-    Melee* m = new Melee();
-    b.spawnEntityCopyAt(Vec2D(4, 4), m);
-    m->runState();
+
+    Board b = *CSVParser::parseMapFile("b.csv");
+    //Melee* m = new Melee();
+    //b.spawnEntityCopyAt(Vec2D(4, 4), m);
+    b.display();
+
+    //m->runState();
 
     //Game game = Game();
     //game.start();

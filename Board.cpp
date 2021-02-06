@@ -70,7 +70,13 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
 
     // get incremented step for x or y according to diff between pos and tgt
     // this step should move pos towards tgt
-    int delta = pos.x - tgt.x;
+    int delta;
+    if(useAxisX) {
+        delta = pos.x - tgt.x;
+    } else {
+        delta = pos.y - tgt.y;
+    }
+    
     if(delta == 0) {
         // no movement on this axis, should jump straight to next recursive call
         recursiveMoveEntityAt(pos, tgt, !useAxisX);
@@ -126,7 +132,7 @@ Tile* Board::getTileAt(Vec2D pos) {
 }
 
 void Board::setTileStateAt(Vec2D pos, TileState tileState) {
-    Tile *tile = spaces->get(pos.y)->get(pos.x)->tile;
+    Tile *tile = getTileAt(pos);
     if(tile != nullptr) {
         tile->setState(tileState);
     }
@@ -137,8 +143,18 @@ bool Board::posIsWithinBoard(Vec2D pos) {
 }
 
 void Board::display() {
-    std::cout << width << ", " << height << std::endl;
-    for(int y=0; y<height; y++) {
+    std::cout << std::endl;
+    for(int y=height-1; y>=0; y--) {
+
+        // y-axis numbering
+        if(y<=9) {
+            std::cout << y;
+        } else {
+            std::cout << "+";
+        }
+        // vertical axis divider
+        std::cout << " | ";
+        
         for(int x=0; x<width; x++) {
             Entity *e = spaces->get(y)->get(x)->entity;
             if(e != nullptr) {
@@ -155,6 +171,24 @@ void Board::display() {
         }
         std::cout << std::endl;
     }
+
+    // horizontal axis divider
+    std::cout << "----";
+    for(int i=0; i<width; i++) {
+        std::cout << "--";
+    }
+    std::cout << std::endl;
+
+    // x-axis numbering
+    std::cout << "B | ";
+    for(int i=0; i<width; i++) {
+        if(i<=9) {
+            std::cout << i << " ";
+        } else {
+            std::cout << "+ ";
+        }
+    }
+    std::cout << std::endl << std::endl;
 }
 
 VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {

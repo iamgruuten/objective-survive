@@ -52,8 +52,9 @@ void Melee::runState(){
     if(stateDesc == "search") {
         VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(9,9));
         std::cout << path.getSize() << std::endl;
-        for(int i=0; i<path.getSize(); i++) {
+        for(int i=0; i<path.getSize()-1; i++) {
             std::cout << (std::string) path.get(i) << std::endl;
+            boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
         }
     }
     boardRef->display();
