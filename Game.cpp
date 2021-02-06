@@ -5,6 +5,8 @@
 #include "FSMStack.h"
 #include "VArray.cpp"
 #include "Tile.h"
+#include "EntityClasses.h"
+#include "Vec2D.h"
 //#include "csvParser.h"
 
 #include <fstream>
@@ -83,10 +85,15 @@ void Game::runMenu() {
 }
 
 void Game::runGame() {
-
-    
     //TODO: Spawn board and set tile states
+
     //TODO: Spawn entities using .copy()
+    Walls w;
+    Vec2D vec = new Vec2D()
+    w.setPos();
+    w.clone();
+    
+
     //TODO: Add impt entities to entity turn array
     //TODO: Initialise event priority queue
     //TODO: Run event queue until break event occurs

@@ -7,6 +7,8 @@
 #include "VArray.cpp"
 #include <iostream>
 
+
+//https://en.wikipedia.org/wiki/Binary_heap
 template <typename T>
 BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
     // copy all nodes into queue

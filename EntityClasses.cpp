@@ -1,6 +1,7 @@
 #include "EntityClasses.h"
 #include "FSMStack.h"
 #include "Board.h"
+#include "BHPriorityQueue.h"
 #include <iostream>
 
 Walls::Walls(): Entity(3, 0, 0, false) {
@@ -35,7 +36,7 @@ Entity* Melee::clone(){
 }
 
 void Melee::runState(){
-
+    melee.setPos()
 }
 
 void Melee::display(){
@@ -62,7 +63,15 @@ Entity* Ranged::clone(){
 }
 
 void Ranged::runState(){
+    //Ranged
 
+    //Heuristic Function
+
+
+}
+
+double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
+    return sqrt((a_x- b_x)^2 + (a_y - b_y)^2 + (a_health - b_health)^2) ;
 }
 
 void Ranged::display(){
