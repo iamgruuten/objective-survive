@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef fsmstack_h
 #define fsmstack_h
 #include <string>

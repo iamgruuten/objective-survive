@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef game_h
 #define game_h
 #include "FSMStack.h"

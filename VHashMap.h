@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef vhashmap_h
 #define vhashmap_h
 #include "VArray.h"

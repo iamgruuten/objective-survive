@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #include "BHPriorityQueue.h"
 #include "VArray.cpp"
 #include <iostream>

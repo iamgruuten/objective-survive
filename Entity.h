@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef entity_h
 #define entity_h
 #include "VArray.h"

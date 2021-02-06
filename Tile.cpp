@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #include "Tile.h"
 #include "FSMStack.h"
 #include <string>

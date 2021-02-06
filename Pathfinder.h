@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef pathfinder_h
 #define pathfinder_h
 #include <string>
