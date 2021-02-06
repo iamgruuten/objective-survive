@@ -53,8 +53,7 @@ void Melee::runState(){
         VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(9,9));
         std::cout << path.getSize() << std::endl;
         for(int i=0; i<path.getSize(); i++) {
-            Vec2D pos = path.get(i);
-            boardRef->setTileStateAt(pos, water);
+            std::cout << (std::string) path.get(i) << std::endl;
         }
     }
     boardRef->display();
