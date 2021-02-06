@@ -1,11 +1,16 @@
 #include "EntityClasses.h"
+#include "Entity.h"
 #include "FSMStack.h"
 #include "Board.h"
 #include "BHPriorityQueue.h"
+#include "Pathfinder.h"
 #include <iostream>
 
-Walls::Walls(): Entity(3, 0, 0, false) {
-}
+Walls::Walls(): Entity(3, 0, 0, false) {}
+
+Walls::Walls(int hp, int armor): Entity(hp, armor, 0, false) {}
+
+Walls::~Walls() {}
 
 Entity* Walls::clone() {
     Walls *wall = new Walls();
@@ -20,13 +25,20 @@ void Walls::display(){
     std::cout << "A";
 }
 
-void Walls::onDeath(){}
+void Walls::onDeath(){
+    boardRef->despawnEntityAt(pos);
+}
 
 //Melee
 Melee::Melee(): Entity(3, 3, 2, true) {
-    fsmStack.pushState("SpawnMelee");
+    fsmStack.pushState("search");
 }
 
+Melee::Melee(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true) {
+    fsmStack.pushState("search");
+}
+
+Melee::~Melee() {}
 
 Entity* Melee::clone(){
     Melee *melee = new Melee();
@@ -36,7 +48,11 @@ Entity* Melee::clone(){
 }
 
 void Melee::runState(){
-    melee.setPos()
+    std::string stateDesc = fsmStack.popState();
+    if(stateDesc == "search") {
+        VArray<Vec2D> path =  getPathToTarget(*boardRef, pos, Vec2D(5,5));
+        std::cout << path.getSize() << std::endl;
+    }
 }
 
 void Melee::display(){
@@ -44,16 +60,29 @@ void Melee::display(){
 }
 
 void Melee::onDeath(){
-    Board *board = boardRef;
-
-    board->despawnEntityAt(pos);
+    boardRef->despawnEntityAt(pos);
 }
 
+int Melee::getScoreForTileState(TileState tileState) {
+    switch(tileState) {
+        case normal:
+            return 1;
+        case water:
+            return 2;
+        case hole:
+            return 99999;
+    }
+}
 
 //Ranged
 Ranged::Ranged(): Entity(3, 2, 1, true) {
     fsmStack.pushState("SpawnRanged");
 }
+
+Ranged::Ranged(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true) {
+}
+
+Ranged::~Ranged() {}
 
 Entity* Ranged::clone(){
     Ranged *ranged = new Ranged();

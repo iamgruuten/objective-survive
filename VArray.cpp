@@ -1,6 +1,9 @@
 //Team members - Lee Quan Sheng and Eugene Long
 //Group 8
 
+#ifndef varray_cpp
+#define varray_cpp
+
 #include "VArray.h"
 #include <stdexcept>
 #include <iostream>
@@ -170,3 +173,5 @@ typename VArray<T>::Proxy& VArray<T>::Proxy::operator=(T value) {
     varray.set(value, index);
     return *this;
 }
+
+#endif

@@ -2,6 +2,7 @@
  #define EntityClasses_h
 
 #include "Entity.h"
+#include "Pathfinder.h"
 
 class Walls : public Entity{
 public:
@@ -15,21 +16,22 @@ public:
 };
 
 
-class Melee : public Entity{
+class Melee : public Entity, public Pathfinder {
 public:
     Melee();
-    Melee(int hp, int armor, int maxmp, bool moveable);
+    Melee(int hp, int armor, int maxmp);
     ~Melee();
     Entity* clone();
     void runState();
     void display();
     void onDeath();
+    int getScoreForTileState(TileState tileState);
 };
 
 
 class Ranged : public Entity{
     Ranged();
-    Ranged(int hp, int armor, int maxmp, bool moveable);
+    Ranged(int hp, int armor, int maxmp);
     ~Ranged();
     Entity* clone();
     void runState();

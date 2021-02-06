@@ -88,10 +88,10 @@ void Game::runGame() {
     //TODO: Spawn board and set tile states
 
     //TODO: Spawn entities using .copy()
-    Walls w;
-    Vec2D vec = new Vec2D()
-    w.setPos();
-    w.clone();
+    //Walls w;
+    //Vec2D vec = new Vec2D()
+    //w.setPos();
+    //w.clone();
     
 
     //TODO: Add impt entities to entity turn array

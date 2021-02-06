@@ -78,6 +78,7 @@ void VHashMap<Key, Value>::add(Key newKey, Value newVal) {
             // check for duplicate keys while we travel
             if(temp->key == newKey) {
                 // reject insertion of duplicate key!
+                size--;
                 return;
             }
 
@@ -140,7 +141,8 @@ void VHashMap<Key, Value>::set(Key existingKey, Value newVal) {
     VHashMapItem<Key, Value> *temp = items->get(index);
 
     // search for item with matching key
-    while(temp != nullptr) {
+    while(temp != NULL) {
+        std::cout << temp << std::endl;
         if(temp->key == existingKey) {
             temp->value = newVal;
         }

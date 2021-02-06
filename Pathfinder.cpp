@@ -1,10 +1,13 @@
 #include "Pathfinder.h"
-#include "VArray.cpp"
+#include "VArray.h"
 #include "Vec2D.h"
-#include "CoordinateMap.h"
-#include "BHPriorityQueue.h"
+#include "CoordinateMap.cpp"
+#include "BHPriorityQueue.cpp"
 #include "Board.h"
 #include "Tile.h"
+#include <iostream>
+
+Pathfinder::~Pathfinder() {}
 
 VArray<Vec2D> reconstructPath(CoordinateMap<Vec2D> cameFrom, Vec2D current) {
     VArray<Vec2D> path;
@@ -17,7 +20,7 @@ VArray<Vec2D> reconstructPath(CoordinateMap<Vec2D> cameFrom, Vec2D current) {
 }
 
 int h(Vec2D startPos, Vec2D endPos) {
-    return startPos.getL1DistanceTo(endPos) * 1.5;
+    return startPos.getL1DistanceTo(endPos);
 }
 
 int getValue(CoordinateMap<int> coordMap, Vec2D pos, int defaultVal) {
@@ -57,6 +60,8 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
             return reconstructPath(cameFrom, current);
         }
 
+        std::cout << (std::string) current << std::endl;
+
         VArray<Vec2D> neighbours = b.neighboursForSpaceAt(current);
         // d(current,neighbor) is the weight of the edge from current to neighbor
         // tentative_gScore is the distance from start to the neighbor through current
@@ -69,6 +74,8 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
             Vec2D neighbour = neighbours.get(i);
             Tile *tile = b.getTileAt(neighbour);
 
+            std::cout << "N: " << (std::string) neighbour << std::endl;
+
             // d(current,neighbor) is the weight of the edge from current to neighbor
             // tentative_gScore is the distance from start to the neighbor through current
             int d = getScoreForTileState(tile->getState());
@@ -77,14 +84,18 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
             int neighbourGScore = getValue(gScore, neighbour, INT_MAX);
             if(tentative_gScore < neighbourGScore) {
 
+                std::cout << "!" << std::endl;
+                std::cout << cameFrom.getSize() << std::endl;
                 // This path to neighbor is better than any previous one. Record it!
+                std::cout << (std::string) neighbour << ", " << (std::string) current << std::endl;
                 cameFrom.set(neighbour, current);
                 gScore.set(neighbour, tentative_gScore);
-                
+
                 int fscore = neighbourGScore + h(startPos, neighbour);
                 fScore.set(neighbour, fscore);
 
                 if(openSet.search(neighbour) == -1) {
+                    std::cout << "---test2" << std::endl;
                     openSet.insert(fscore, neighbour);
                 }
             }

@@ -175,6 +175,16 @@ T BHPriorityQueue<T>::insertExtract(int priority, T val) {
 }
 
 template <typename T>
+int BHPriorityQueue<T>::search(T val) {
+    for(int i=0; i<queue.getSize(); i++) {
+        if(queue.get(i)->val == val) {
+            return i;
+        }
+    }
+    return -1; // not found
+}
+
+template <typename T>
 void BHPriorityQueue<T>::print() {
     for(int i=0; i<queue.getSize(); i++) {
         BHNode<T> *ptr = queue.get(i);
