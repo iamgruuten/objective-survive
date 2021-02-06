@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef coordinatemap_h
 #define coordinatemap_h
 #include "VHashMap.h"

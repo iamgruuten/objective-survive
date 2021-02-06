@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef vec2d_h
 #define vec2d_h
 #include <string>

@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #include "Spell.h"
 #include "Vec2D.h"
 #include "EffectClasses.h"

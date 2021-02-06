@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #include "Game.h"
 #include "FSMStack.h"
 #include "VArray.cpp"

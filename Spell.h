@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef spell_h
 #define spell_h
 #include "VArray.h"

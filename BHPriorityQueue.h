@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef bhpriorityqueue_h
 #define bhpriorityqueue_h
 #include "VArray.h"

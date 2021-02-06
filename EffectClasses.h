@@ -1,3 +1,6 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
 #ifndef effectclasses_h
 #define effectclasses_h
 #include "Vec2D.h"
