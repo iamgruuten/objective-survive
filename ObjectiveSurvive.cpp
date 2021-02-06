@@ -8,6 +8,7 @@
 #include "EntityClasses.h"
 #include <iostream>
 #include "CSVParser.h"
+#include "FSMStack.h"
 
 int main() {
     
@@ -16,7 +17,7 @@ int main() {
     Board b = *CSVParser::parseMapFile("b.csv");
     //Melee* m = new Melee();
     //b.spawnEntityCopyAt(Vec2D(4, 4), m);
-    b.display();
+    b.display(); 
 
     //m->runState();
 

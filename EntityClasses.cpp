@@ -99,8 +99,8 @@ Entity* Ranged::clone(){
 void Ranged::runState(){
     //Ranged
 
-    //Heuristic Function
-
+    //If closest opponent unit is less than 3 tiles away - Action: Move Away
+    //If opponenet is more than 6 tiles away - Move towards closest unit
 
 }
 
