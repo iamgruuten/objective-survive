@@ -23,6 +23,18 @@ void Vec2D::transformCW90() {
     x = tx; y = ty;
 }
 
+void Vec2D::transformRotations(int rot) {
+    bool clockwise = rot > 0;
+    rot = abs(rot);
+    for(int _=0; _<rot; _++) {
+        if(clockwise) {
+            transformCW90();
+        } else {
+            transformACW90();
+        }
+    }
+}
+
 Vec2D Vec2D::operator+(Vec2D rhs) {
     return Vec2D(x+rhs.x, y+rhs.y);
 }

@@ -16,6 +16,10 @@ public:
     void transformACW90();
     void transformCW90();
     
+    // transforms the vector by 90 degree rotations.
+    // positive values rotate the vector clockwise, while negative values rotate the vector anti-clockwise.
+    void transformRotations(int rot);
+    
     // operator methods
     Vec2D operator+(Vec2D rhs);
     Vec2D operator-(Vec2D rhs);
