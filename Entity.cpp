@@ -7,7 +7,7 @@
 #include "Board.h"
 #include "VArray.cpp"
 
-Entity::Entity(int hp, int armor, int maxmp, int posx, int posy, bool moveable) : pos(Vec2D(posx, posy)), boardRef(NULL) {
+Entity::Entity(int hp, int armor, int maxmp, bool moveable) : pos(Vec2D(0, 0)), boardRef(NULL) {
     hp = hp;
     armor = armor;
     maxMovePoints = maxmp;

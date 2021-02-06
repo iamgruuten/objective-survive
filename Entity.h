@@ -27,7 +27,7 @@ private:
     Vec2D pos;
 
 public:
-    Entity(int hp, int armor, int maxmp, int posx, int posy, bool moveable);
+    Entity(int hp, int armor, int maxmp, bool moveable);
     virtual Entity* clone() = 0;
     virtual ~Entity();
 
