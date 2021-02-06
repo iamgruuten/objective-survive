@@ -26,7 +26,7 @@ public:
     };
 
     VArray();
-    VArray(int initialCapacity);
+    VArray(int initialSize, int initialCapacity);
     ~VArray();
     void resize();
     void push(T item);

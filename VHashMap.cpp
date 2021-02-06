@@ -23,10 +23,10 @@ VHashMap<Key, Value>::~VHashMap() {
 }
 
 template <class Key, class Value>
-VHashMap<Key, Value>::VHashMap(int initialCapacity) {
+VHashMap<Key, Value>::VHashMap(int initCap) {
     size = 0;
-    capacity = initialCapacity;
-    items = new VArray< VHashMapItem<Key, Value>* >(initialCapacity);
+    capacity = initCap;
+    items = new VArray< VHashMapItem<Key, Value>* >(initCap, initCap);
     initialiseToNullptr();
 }
 
@@ -37,7 +37,7 @@ void VHashMap<Key, Value>::checkLoadAndResize() {
     // if load exceeded, increase capacity
     if(load > VHM_MAX_LOAD_FACTOR) {
         // allocate new array with larger capacity
-        VArray< VHashMapItem<Key, Value>* > *temp = new VArray< VHashMapItem<Key, Value>* >(capacity*2);
+        VArray< VHashMapItem<Key, Value>* > *temp = new VArray< VHashMapItem<Key, Value>* >(capacity*2, capacity*2);
         
         // copy over all items from previous arr
         for(int i=0; i<capacity; i++) {

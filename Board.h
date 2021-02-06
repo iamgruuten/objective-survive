@@ -1,52 +1,38 @@
 #ifndef board_h
 #define board_h
 #include "VArray.h"
-#include "Tile.h"
+#include "Vec2D.h"
 
-// forward declaration
+// Forward declaration
 class Entity;
-class AbsolutePosition;
+class Tile;
 
-class Space {
-private:
-    Entity* entity;
-    Tile tile;
-public:
-    Space();
-    ~Space();
-    void display();
-
-    // Entity related methods
-    Entity* getEntity();
-    void setEntity(Entity *e);
-    Entity* popEntity();
-    void moveEntity(Space& s);
-
-    // Tile related methods
-    Tile& getTile();
+struct Space {
+    Entity *entity;
+    Tile *tile;
 };
 
 class Board {
 private:
-    int size;
-    bool overlayEnabled;
-    VArray< VArray<char> > overlay;
-    VArray< VArray<Space> > grid;
+    int width;
+    int height;
+    VArray< VArray< Space* >* > *spaces;
 public:
-    Board(int size);
-    void resetOverlay();
-    void enableOverlay();
-    void disableOverlay();
+    Board(int w, int h);
+    ~Board();
+
+    Entity* getEntityAt(Vec2D pos);
+    void moveEntityAt(Vec2D origin, Vec2D tgt);
+    void spawnEntityCopyAt(Vec2D pos, Entity* e);
+    void despawnEntityAt(Vec2D pos);
+
+    Tile* getTileAt(Vec2D pos);
+    void setTileAt(Vec2D pos, Tile tile);
+
+    bool posIsWithinBoard(Vec2D pos);
     void display();
 
-    bool checkPosWithinBoard(AbsolutePosition pos);
-
-    Entity* getEntityAt(AbsolutePosition pos);
-    void spawnEntityCopyAt(Entity* e, AbsolutePosition pos);
-    void despawnEntityAt(AbsolutePosition pos);
-    void moveEntity(AbsolutePosition epos, AbsolutePosition tgtpos);
-
-    Tile* getTileAt(AbsolutePosition pos);
+    VArray<Vec2D>* neighboursForSpaceAt(Vec2D pos);
 };
 
 #endif

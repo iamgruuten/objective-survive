@@ -13,6 +13,7 @@ public:
     int x;
     int y;
     
+    Position() {}
     Position(int x, int y) : x(x), y(y) {}
     Position(const Position &pos) : x(pos.x), y(pos.y) {}
     Position(Directions dir, int magnitude);
@@ -27,12 +28,14 @@ public:
 class AbsolutePosition : public Position {
 private:
 public:
+    AbsolutePosition() {}
     AbsolutePosition(int x, int y) : Position(x, y) {}
 };
 
 class RelativePosition : public Position {
 private:
 public:
+    RelativePosition() {}
     RelativePosition(int x, int y) : Position(x, y) {};
     RelativePosition(Directions dir, int magnitude) : Position(dir, magnitude) {};
     AbsolutePosition getAbsolutePos(Position origin);
