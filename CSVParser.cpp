@@ -1,6 +1,8 @@
 #include "CSVParser.h"
 #include "VArray.cpp"
 #include "Tile.h"
+#include "Entity.h"
+#include "EntityClasses.h"
 #include <string>
 
 #include <iostream>
@@ -25,8 +27,10 @@ Board* CSVParser::parseMapFile(std::string filename) {
     std::string rawMap = getTextFromFile(filename);
     rawMap.pop_back(); // remove EOF newline
 
-    VArray<VArray<TileState>* > temp;
-    temp.push(new VArray<TileState>());
+    VArray<VArray<TileState>* > states;
+    VArray<VArray<char>* > entities;
+    states.push(new VArray<TileState>());
+    entities.push(new VArray<char>());
 
     int row = 0;
     for(int i=0; i<rawMap.length(); i++) {
@@ -34,29 +38,58 @@ Board* CSVParser::parseMapFile(std::string filename) {
             case ',': break;
             case '\n':
                 row ++;
-                temp.push(new VArray<TileState>());
+                states.push(new VArray<TileState>());
+                entities.push(new VArray<char>());
                 break;
             case '0':
-                temp.get(row)->push(normal);
+                states.get(row)->push(normal);
+                entities.get(row)->push('\0');
                 break;
             case '1':
-                temp.get(row)->push(water);
+                states.get(row)->push(water);
+                entities.get(row)->push('\0');
                 break;
             case '2':
-                temp.get(row)->push(hole);
+                states.get(row)->push(hole);
+                entities.get(row)->push('\0');
                 break;
+            case 'w':
+            case 'm':
+            case 'r':
+                entities.get(row)->push(rawMap[i]);
+                states.get(row)->push(normal);
         }
     }
 
-    int height = temp.getSize();
-    int width = temp.get(0)->getSize();
+    int height = states.getSize();
+    int width = states.get(0)->getSize();
 
     Board* board = new Board(width, height);
 
+    // Entity 'brushes'
+    Walls wall = Walls();
+    Melee melee = Melee();
+    Ranged ranged = Ranged();
+
     for(int i=0; i<height; i++) {
         for(int j=0; j<width; j++) {
-            TileState state = temp.get(i)->get(j);
-            board->setTileStateAt(Vec2D(j, i), state);
+            Vec2D pos = Vec2D(j, i);
+            board->setTileStateAt(pos, states.get(i)->get(j));
+
+            char entityType = entities.get(i)->get(j);
+            if(entityType != '\0') {
+                switch(entityType) {
+                    case 'w':
+                        board->spawnEntityCopyAt(pos, &wall);
+                        break;
+                    case 'm':
+                        board->spawnEntityCopyAt(pos, &melee);
+                        break;
+                    case 'r':
+                        board->spawnEntityCopyAt(pos, &ranged);
+                        break;
+                }
+            }
         }
     }
 

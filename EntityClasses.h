@@ -30,6 +30,7 @@ public:
 
 
 class Ranged : public Entity{
+public:
     Ranged();
     Ranged(int hp, int armor, int maxmp);
     ~Ranged();
