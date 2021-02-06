@@ -3,10 +3,8 @@
 
 class Displayable {
 private:
-    char icon;
 public:
-    void setIcon(char i);
-    void display();
+    virtual void display() = 0;
 };
 
 #endif

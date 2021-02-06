@@ -3,7 +3,7 @@
 #include "Tile.h"
 #include "Board.h"
 #include "Entity.h"
-#include "PositionClasses.h"
+#include "Vec2D.h"
 
 #include <fstream>
 #include <string>
@@ -29,18 +29,12 @@ Board csvParser::LoadMap(std::string filePath){
             //X refers to the x axis pos
             //Y refers to the y axis pos
             Tile t;
-            t.pushState(std::stoi(field))
-            Vec2D pos = Vec2D(x, y);
-
-            board.setTileAt(pos, t);
-            
+            //board.setTileStateAt(Vec2D(x, y), std::stoi(field))
         }
         
     }
 
     return board;
-}
-
 }
 
 csvParser::LoadEntities(std::string filePath, Board* board){

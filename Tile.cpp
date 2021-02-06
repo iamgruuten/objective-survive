@@ -1,32 +1,32 @@
 #include "Tile.h"
 #include "FSMStack.h"
 #include <string>
+#include <iostream>
 
-Tile::Tile() : Stateful() {
-    setIcon('.');
+Tile::Tile() {
+    state = normal;
 }
 
 Tile::~Tile() {}
 
-void Tile::runState() {}
-
-TileState Tile::getState() {
-    std::string state = fsmStack.getTopState();
-    if(state == "normal") { return normal; }
-    else if (state == "hole") { return hole; }
-    else { return water; }
+void Tile::setState(TileState tileState) {
+    state = tileState;
 }
 
-void Tile::pushState(TileState tileState) {
-    switch(tileState) {
+TileState Tile::getState() {
+    return state;
+}
+
+void Tile::display() {
+    switch(state) {
         case normal:
-            fsmStack.pushState("normal");
+            std::cout << ".";
             break;
         case hole:
-            fsmStack.pushState("hole");
+            std::cout << " ";
             break;
         case water:
-            fsmStack.pushState("water");
+            std::cout << "w";
             break;
     }
 }

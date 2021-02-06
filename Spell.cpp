@@ -5,19 +5,19 @@
 
 Spell::Spell() {
     range = 0;
+    effects = new VArray<Effect*>;
+}
+
+Spell::~Spell() {
+    delete effects;
 }
 
 void Spell::addEffect(Effect* effect) {
-    effects.push(effect);
+    effects->push(effect);
 }
 
-void Spell::activateSpell(Board& board, int distance, Directions facing, Vec2D origin) {
-    Vec2D relPos = Vec2D(0, distance);
-    Vec2D pivot = Vec2D(0,0);
-    RotationHandler::rotateToFace(relPos, &pivot, up, facing);
-    Vec2D tgtPos = relPos.getL1DistanceTo(origin);
-
-    for(int i=0; i<effects.getSize(); i++) {
-        effects.get(i)->applyEffect(board, tgtPos, facing);
+void Spell::activateSpell(Board& board, Vec2D tgtPos, int rotations) {
+    for(int i=0; i<effects->getSize(); i++) {
+        effects->get(i)->applyEffect(board, tgtPos, rotations);
     }
 }

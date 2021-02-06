@@ -5,18 +5,18 @@
 // forward declaration
 class Effect;
 class Board;
-enum Directions: int;
-class AbsolutePosition;
+class Vec2D;
 
 class Spell {
 private:
     int range;
-    VArray<Effect*> effects;
+    VArray<Effect*>* effects;
 public:
     Spell();
+    ~Spell();
     Spell(int range) : range(range), effects() {}
     void addEffect(Effect* effect);
-    void activateSpell(Board& board, int distance, Directions facing, AbsolutePosition origin);
+    void activateSpell(Board& board, Vec2D tgtPos, int rotations);
 };
 
 #endif

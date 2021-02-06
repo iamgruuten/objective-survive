@@ -3,7 +3,7 @@
 #include "Board.h"
 
 //forward declaration
-class AbsolutePosition;
+class Vec2D;
 class Board;
 
 class csvParser{
@@ -11,4 +11,4 @@ class csvParser{
         Board LoadMap(std::string);
         Board LoadEntities(std::string, Board board);
 
-}
+};

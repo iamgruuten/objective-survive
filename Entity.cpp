@@ -1,16 +1,17 @@
 #include "Entity.h"
-#include "PositionClasses.h"
+#include "Vec2D.h"
 #include "Spell.h"
 #include "Board.h"
 #include "VArray.cpp"
 
-Entity::Entity(char icon, int hp, int armor, int maxmp, int posx, int posy, bool moveable) : pos(AbsolutePosition(posx, posy)), boardRef(NULL) {
-    setIcon(icon);
+Entity::Entity(int hp, int armor, int maxmp, int posx, int posy, bool moveable) : pos(Vec2D(posx, posy)), boardRef(NULL) {
     hp = hp;
     armor = armor;
     maxMovePoints = maxmp;
     movePoints = maxmp;
     isMoveable = moveable;
+
+    spells = new VArray<Spell>();
 }
 
 Entity::~Entity() {
@@ -54,21 +55,21 @@ void Entity::setPos(int px, int py) {
     pos.updatePosition(px, py);
 }
 
-AbsolutePosition Entity::getPos() {
+Vec2D Entity::getPos() {
     return pos;
 }
 
 void Entity::addSpell(Spell spell) {
-    spells.push(spell);
+    spells->push(spell);
 }
 
 void Entity::removeSpell(int index) {
-    spells.remove(index);
+    spells->remove(index);
 }
 
-void Entity::executeSpell(int index, Board& board, int dist, Directions facing) {
-    Spell spell = spells[index];
-    spell.activateSpell(board, dist, facing, pos);
+void Entity::executeSpell(int index, Board& board, Vec2D tgtPos, int rotations) {
+    Spell spell = spells->get(index);
+    spell.activateSpell(board, tgtPos, rotations);
 }
 
 void Entity::kill() {
