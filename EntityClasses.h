@@ -5,18 +5,36 @@
 
 class Walls : public Entity{
 public:
-    Walls(int hp, int armor, int maxmp, bool moveable);    
     Walls();
+    Walls(int hp, int armor);
+    ~Walls();
+    Entity* clone();
+    void runState();
+    void display();
+    void onDeath();
 };
 
 
 class Melee : public Entity{
-    Melee(int hp, int armor, int maxmp, int x, int y, bool moveable);
+public:
+    Melee();
+    Melee(int hp, int armor, int maxmp, bool moveable);
+    ~Melee();
+    Entity* clone();
+    void runState();
+    void display();
+    void onDeath();
 };
 
 
 class Ranged : public Entity{
-    Ranged(int hp, int armor, int maxmp, int x, int y, bool moveable);
+    Ranged();
+    Ranged(int hp, int armor, int maxmp, bool moveable);
+    ~Ranged();
+    Entity* clone();
+    void runState();
+    void display();
+    void onDeath();
 };
 
 #endif  
