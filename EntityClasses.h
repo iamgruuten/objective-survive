@@ -40,6 +40,7 @@ public:
     void display();
     void onDeath();
     int getScoreForTileState(TileState tileState);
+    int getScoreForPosition(Vec2D pos);
 
 };
 
