@@ -97,32 +97,43 @@ Entity* Ranged::clone(){
     return ranged;
 }
 
+
+double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
+    return sqrt((a_x- b_x)^2 + (a_y - b_y)^2 + (a_health - b_health)^2) ;
+}
+
+
+
 void Ranged::runState(){
     //Ranged
+    VArray<Entity* > entities = boardRef->getTargets();
+    BHPriorityQueue<Entity*> bhpq; 
+
+    for(int e = 0; e < entities.getSize(); e++)
+    {
+        Entity* a = entities.get(e);
+        double rewards = heuristicCalculation(pos.x, pos.y, a->getPos().x, a->getPos().y, a->getHp(), getHp())
+        bhpq.insert(rewards, a);
+
+    }
+
+    Entity* targ = bhpq.extract();
 
     //If closest opponent unit is less than 3 tiles away - Action: Move Away
     //If opponenet is more than 6 tiles away - Move towards closest unit
 
     std::string stateDesc = fsmStack.popState();
-    if(stateDesc == "ranger") {
-        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(6,13));
-        for(int i=0; i<path.getSize()-1; i++) {
-            boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
-        }
-    }
+    
+    
+    int steps = (targ->getPos().x - pos.x) + (targ->getPos().y - pos.y);
 
-    if(distanceTiles > 3){
-        setPos(); //Go towards the enemy unit 
-    }else{
-        setPos(); //Move away from enemy unit
-    }
+    std::cout << "Steps from target " << steps;
+    VArray<Vec2D> path = getPathToTarget(*boardRef, pos, );
+
     boardRef->display();
 
 }
 
-double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
-    return sqrt((a_x- b_x)^2 + (a_y - b_y)^2 + (a_health - b_health)^2) ;
-}
 
 void Ranged::display(){
     std::cout << "m";
