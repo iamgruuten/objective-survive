@@ -2,12 +2,18 @@
 //Group 8
 //Priority Queue using Binary Heap
 //Min Heap
+/**
+The Binary Heap Priority Queue uses VArray implementation
+Time Complexity: The time complexity of all the operation is O(log N) except for GetMin() which has time complexity of O(1). 
+Auxiliary Space: O(N)
+
+**/
 
 #include "BHPriorityQueue.h"
 #include "VArray.cpp"
 #include <iostream>
 
-
+//This function takes in VArray (which is used across most applications) to intilalize with its initial binary heap
 //https://en.wikipedia.org/wiki/Binary_heap
 template <typename T>
 BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
@@ -17,24 +23,30 @@ BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
     }
 }
 
+//Desconstructor of BinaryHeapPriorityQueue
 template <typename T>
 BHPriorityQueue<T>::~BHPriorityQueue() {}
 
+//This function retrieve the parent index of child index
 template <typename T>
 int BHPriorityQueue<T>::getParentIndex(int childIndex) {
     return floor( (childIndex - 1) / 2 );
 }
 
+//This function retrieve the left child index of the parent index
+//To know whether if the parent has a left child
 template <typename T>
 int BHPriorityQueue<T>::getLeftChildIndex(int parentIndex) {
     return (2 * parentIndex) + 1;
 }
 
+//This function retrieve the right child of the parent index
 template <typename T>
 int BHPriorityQueue<T>::getRightChildIndex(int parentIndex) {
     return (2 * parentIndex) + 2;
 }
 
+//This function is to swap the node between both nodes
 template <typename T>
 void BHPriorityQueue<T>::swap(int nodeIndexA, int nodeIndexB) {
 
