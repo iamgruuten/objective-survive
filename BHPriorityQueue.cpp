@@ -11,6 +11,8 @@ Auxiliary Space: O(N)
 #include "BHPriorityQueue.h"
 #include "VArray.cpp"
 #include <iostream>
+#include <math.h>
+
 
 //This function takes in VArray (which is used across most applications) to intilalize with its initial binary heap
 //pre: None

@@ -9,6 +9,8 @@
 #include "VArray.h"
 #include <stdexcept>
 #include <iostream>
+#include <math.h>
+#include <climits>
 
 template <typename T>
 VArray<T>::VArray() {

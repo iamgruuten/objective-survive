@@ -8,6 +8,9 @@
 #include "EntityClasses.h"
 #include "VArray.cpp"
 
+#include <math.h>
+#include <time.h>
+
 #include <iostream>
 #include <stdlib.h> // rand, srand
 

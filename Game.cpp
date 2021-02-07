@@ -10,6 +10,7 @@
 #include "CSVParser.h"
 #include "Queue.cpp"
 
+#include <math.h>
 #include <string>
 #include <iostream>
 

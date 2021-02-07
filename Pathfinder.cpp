@@ -9,6 +9,8 @@
 #include "BHPriorityQueue.cpp"
 #include "Board.h"
 #include "Tile.h"
+#include <math.h>
+#include <climits>
 #include <iostream>
 
 Pathfinder::~Pathfinder() {}
