@@ -8,6 +8,9 @@
 #include <iostream>
 #include <fstream>
 
+//Retrieve Text from csv file
+//pre: None
+//Post: None
 std::string CSVParser::getTextFromFile(std::string filename) {
     std::ifstream file(filename);
 
@@ -22,6 +25,9 @@ std::string CSVParser::getTextFromFile(std::string filename) {
     return rawMap;
 }
 
+//Parse into a Full Map (Board) from the file 
+//pre: None
+//Post: Returns a full loaded board
 Board* CSVParser::parseMapFile(std::string filename) {
     
     std::string rawMap = getTextFromFile(filename);

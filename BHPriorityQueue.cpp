@@ -6,7 +6,6 @@
 The Binary Heap Priority Queue uses VArray implementation
 Time Complexity: The time complexity of all the operation is O(log N) except for GetMin() which has time complexity of O(1). 
 Auxiliary Space: O(N)
-
 **/
 
 #include "BHPriorityQueue.h"
@@ -14,6 +13,8 @@ Auxiliary Space: O(N)
 #include <iostream>
 
 //This function takes in VArray (which is used across most applications) to intilalize with its initial binary heap
+//pre: None
+//Post: Returns a initialize BHPQ with the VArrays
 //https://en.wikipedia.org/wiki/Binary_heap
 template <typename T>
 BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
@@ -24,29 +25,38 @@ BHPriorityQueue<T>::BHPriorityQueue(VArray<BHNode<T> > nodes) {
 }
 
 //Desconstructor of BinaryHeapPriorityQueue
+//pre: None
+//Post: None
 template <typename T>
 BHPriorityQueue<T>::~BHPriorityQueue() {}
 
 //This function retrieve the parent index of child index
+//pre: ChildIndex must exist for its parent
+//Post: Returns parent index
 template <typename T>
 int BHPriorityQueue<T>::getParentIndex(int childIndex) {
     return floor( (childIndex - 1) / 2 );
 }
 
 //This function retrieve the left child index of the parent index
-//To know whether if the parent has a left child
+//pre: parentIndex must exist 
+//Post: Return left child index of parent
 template <typename T>
 int BHPriorityQueue<T>::getLeftChildIndex(int parentIndex) {
     return (2 * parentIndex) + 1;
 }
 
 //This function retrieve the right child of the parent index
+//pre: parentIndex must exist 
+//Post: Return right child index of parent
 template <typename T>
 int BHPriorityQueue<T>::getRightChildIndex(int parentIndex) {
     return (2 * parentIndex) + 2;
 }
 
 //This function is to swap the node between both nodes
+//pre: Both nodes must exist
+//Post: None
 template <typename T>
 void BHPriorityQueue<T>::swap(int nodeIndexA, int nodeIndexB) {
 
@@ -56,6 +66,9 @@ void BHPriorityQueue<T>::swap(int nodeIndexA, int nodeIndexB) {
     queue.set(temp, nodeIndexA); // a = b(old)
 }
 
+//Known as heapify up, Swapping the value upwards
+//pre: the index of the node must exist to swap up
+//Post: the index of the node is swapped upwards
 template <typename T>
 void BHPriorityQueue<T>::recursiveUpHeap(int nodeIndex) {
     // base case: parent value <= child or node is top element (index 0)
@@ -73,6 +86,9 @@ void BHPriorityQueue<T>::recursiveUpHeap(int nodeIndex) {
     recursiveUpHeap(parentIndex);
 }
 
+//Known as heapify down, Swapping the value downwards
+//pre: the index of the node must exist to swap down
+//Post: The index of the node is swapped downwards
 template <typename T>
 void BHPriorityQueue<T>::recursiveDownHeap(int nodeIndex) {
     // base case: node is larger than both its children for all levels of the heap
@@ -104,9 +120,13 @@ void BHPriorityQueue<T>::recursiveDownHeap(int nodeIndex) {
 Compare the added element with its parent; if they are in the correct order, stop.
 If not, swap the element with its parent and return to the previous step.**/
 
+//Insert Value to BHPQ
+//pre: None
+//Post: New item is added to BHPQ
 template <typename T>
 void BHPriorityQueue<T>::insert(int priority, T val) {
     // insert element at the leftmost open space (end of the array)
+
     BHNode<T> *newNode = new BHNode<T>();
     newNode->priority = priority;
     newNode->val = val;
@@ -127,6 +147,9 @@ Compare the new root with its children; if they are in the correct order, stop.
 If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.)
 **/
 
+//Extracting the min heap aka parentNode of BHPQ
+//pre: BHPQ must contain at least 1 values
+//Post: Return and Removes Top Node (Min Heap) 
 template <typename T>
 T BHPriorityQueue<T>::extract() {
     // GUARD queue has elements
@@ -150,12 +173,18 @@ T BHPriorityQueue<T>::extract() {
     return retVal;
 }
 
+//Get Top Value
+//pre: BHPQ must contain at least 1 values
+//Post: Returns top value (Min-Heap)
 template <typename T>
 T BHPriorityQueue<T>::peek() {
     // get val at front of queue
     return queue.get(0)->val;
 }
 
+//Insert and Extract the min heap aka parentNode of BHPQ
+//pre: BHPQ must contain at least 1 values
+//Post: Insert new value. Return and Removes Top Node (Min Heap)
 template <typename T>
 T BHPriorityQueue<T>::insertExtract(int priority, T val) {
     // GUARD queue has elements
@@ -186,6 +215,9 @@ T BHPriorityQueue<T>::insertExtract(int priority, T val) {
     return retVal;
 }
 
+//Search for arbitrary element
+//pre: None
+//Post: Return searched result
 template <typename T>
 int BHPriorityQueue<T>::search(T val) {
     for(int i=0; i<queue.getSize(); i++) {
@@ -196,6 +228,9 @@ int BHPriorityQueue<T>::search(T val) {
     return -1; // not found
 }
 
+//Print BHPQ in a priority level
+//pre: None
+//Post: None
 template <typename T>
 void BHPriorityQueue<T>::print() {
     for(int i=0; i<queue.getSize(); i++) {
@@ -205,11 +240,18 @@ void BHPriorityQueue<T>::print() {
     std::cout << std::endl;
 }
 
+//Get size of BHPQ
+//pre: None
+//Post: None
 template <typename T>
 int BHPriorityQueue<T>::getSize() {
     return queue.getSize();
 }
 
+
+//Checks if BHPQ is empty
+//pre: None
+//Post: None
 template <typename T>
 bool BHPriorityQueue<T>::isEmpty() {
     return getSize() == 0;

@@ -9,18 +9,30 @@
 #include "Spell.h"
 #include <iostream>
 
+//Initialize the Walls entity
+//pre: None
+//Post: None
 Walls::Walls(): Entity(3, 0, 0, false, false, false) {}
-
+//Initialize the Walls entity
+//pre: None
+//Post: None
 Walls::Walls(int hp, int armor): Entity(hp, armor, 0, false, false, false) {}
 
+//Deconstruct the Walls entity
+//pre: None
+//Post: None
 Walls::~Walls() {}
 
+//Clone the Walls entity that is created 
+//pre: Entity must exist in the entity
+//Post: None
 Entity* Walls::clone() {
     Walls *wall = new Walls();
     wall->setHp(hp);
     wall->setArmor(armor);
     return wall;
 }
+
 
 void Walls::runState(){}
 

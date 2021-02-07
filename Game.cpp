@@ -22,6 +22,9 @@ Game::~Game() {
     // Deallocator
 }
 
+//Adds the game state using the FSMStack 
+//pre: None
+//Post: None
 void Game::pushState(GameStates state) {
     switch(state) {
         case mainMenu:
@@ -36,6 +39,9 @@ void Game::pushState(GameStates state) {
     }
 }
 
+//Gets the game state from the FSMStack 
+//pre: None
+//Post: None
 GameStates Game::getState() {
     std::string state = fsmStack.popState();
     if(state == "mainmenu") { return mainMenu; }
@@ -43,6 +49,9 @@ GameStates Game::getState() {
     else { return quit; }
 }
 
+//Keeps track of the game state 
+//pre: None
+//Post: None
 void Game::runState() {
     switch(getState()) {
         case mainMenu:
@@ -61,6 +70,9 @@ void Game::runState() {
     }
 }
 
+//Displays menu of the game
+//pre: None
+//Post: None
 void displayMenu() {
     std::cout << "\n\n\nObjective Survive" << std::endl;
     std::cout << "[1] Start Game" << std::endl;
@@ -68,6 +80,9 @@ void displayMenu() {
     std::cout << "> ";
 }
 
+//displayed menu with FSMStack implemented to update the state 
+//pre: None
+//Post: None
 void Game::runMenu() {
     int option;
     while(true) {
@@ -87,6 +102,9 @@ void Game::runMenu() {
     }
 }
 
+//Intialization of the game when user selects 1
+//pre: None
+//Post: None
 void Game::initGame() {
     std::string filename;
     std::cout << "Enter filename of map to load: ";
@@ -96,14 +114,23 @@ void Game::initGame() {
     runGame();
 }
 
+//Reset
+//pre: None
+//Post: None
 void Game::finishGame() {
     // reset any variables used in the game
 }
 
+//Runs the state of the actors 
+//pre: None
+//Post: None
 void Game::runStep() {
     b->runActors();
 }
 
+//Gets Location for spawn target from a random or specific location
+//pre: None
+//Post: None
 Vec2D getLocationForSpawnTarget() {
     int uin;
     std::cout << "\nSpawn Options:" << std::endl;
@@ -127,6 +154,9 @@ Vec2D getLocationForSpawnTarget() {
     return Vec2D(-1, -1);
 }
 
+//Run the game application
+//pre: None
+//Post: None
 void Game::runGame() {
     // main application loop
     bool keepRunning = true;

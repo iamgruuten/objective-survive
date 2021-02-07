@@ -1,3 +1,7 @@
+//Team members - Lee Quan Sheng and Eugene Long
+//Group 8
+
+
 #include "Pathfinder.h"
 #include "VArray.h"
 #include "Vec2D.h"

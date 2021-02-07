@@ -1,5 +1,7 @@
 //Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//VArray is a data structure similar to vector. 
+//It is created to help store the game objects
 
 #ifndef varray_cpp
 #define varray_cpp

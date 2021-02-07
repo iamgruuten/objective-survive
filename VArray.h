@@ -1,5 +1,7 @@
 //Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//VArray is a data structure similar to vector. 
+//It is created to help store the game objects
 
 #ifndef varray_h
 #define varray_h
@@ -32,13 +34,45 @@ public:
     VArray(int initialSize, int initialCapacity);
     ~VArray();
     void resize();
+
+    //Adds object to the VArray
+    //pre: None
+    //Post: None
     void push(T item);
+    
+    //Adds object at the indicated positon to the VArray
+    //pre: None
+    //Post: The new item is insert inbetween to the index
     void push(T item, int index);
+
+    //Replace object at the indcated positon to the VArray
+    //pre: None
+    //Post: The new item is replaced to the index
     void set(T item, int index);
+
+    //Gets object from the VArray
+    //pre: None
+    //Post: None
     T& get(int index);
+
+    //Remove object from the VArray
+    //pre: None
+    //Post: The object is removed from the VArray
     void remove(int index);
+
+    //Gets the size of the VArray
+    //pre: None
+    //Post: None
     int getSize();
+
+    //Gets the capacity of the VArray
+    //pre: None
+    //Post: None
     int getCapacity();
+
+    //Display object of the VArray
+    //pre: None
+    //Post: None
     void print();
 
     // operator methods

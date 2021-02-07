@@ -4,6 +4,8 @@
 #ifndef vec2d_h
 #define vec2d_h
 #include <string>
+//Vec2D is used to manage the position, distance, location, etc. to navigate around the board
+
 
 class Vec2D {
 private:
@@ -18,9 +20,24 @@ public:
     ~Vec2D();
 
     // class methods
+    //Gets the L1Distance (min steps) needed to take to reach to its indicated position 
+    //pre: None
+    //Post: None
     int getL1DistanceTo(Vec2D vec2d);
+    
+    //Update position
+    //pre: None
+    //Post: The position of the object is updated
     void updatePosition(int magnitudeX, int magnitudeY);
+    
+    //Rotates 90 degree anti clockwise of its current position
+    //pre: None
+    //Post: The X or Y value will change according to its current facing direction
     void transformACW90();
+    
+     //Rotates 90 degree clockwise of its current position
+    //pre: None
+    //Post: The X or Y value will change according to its current facing direction
     void transformCW90();
     
     // transforms the vector by 90 degree rotations.
