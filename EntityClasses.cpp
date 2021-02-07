@@ -149,6 +149,8 @@ Target::Target() : Entity(10, 0, 0, false, false) {}
 
 Target::Target(int hp, int armor) : Entity(hp, armor, 0, false, false) {}
 
+Target::~Target() {}
+
 Entity* Target::clone() {
     return new Target(hp, armor);
 }
