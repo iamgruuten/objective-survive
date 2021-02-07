@@ -15,7 +15,6 @@ enum GameStates: int {
 class Game : protected Stateful {
 private:
     Board* b;
-    Queue<Entity*>* turnQueue;
 public:
     Game();
     ~Game();
@@ -27,6 +26,7 @@ public:
     void runMenu();
     void initGame();
     void runGame();
+    void runStep();
     void finishGame();
     void eventTick();
 };

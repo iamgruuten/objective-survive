@@ -23,6 +23,7 @@ public:
     bool dequeue();
     T popFront();
     T getFront();
+    int getSize();
     bool isEmpty();
 };
 

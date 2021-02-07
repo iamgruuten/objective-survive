@@ -40,6 +40,7 @@ public:
     void setTileStateAt(Vec2D pos, TileState tileState);
 
     bool posIsWithinBoard(Vec2D pos);
+    bool posIsValidSpawnLocation(Vec2D pos);
     void display();
 
     VArray<Vec2D> neighboursForSpaceAt(Vec2D pos);

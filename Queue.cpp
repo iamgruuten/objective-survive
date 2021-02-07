@@ -58,6 +58,11 @@ T Queue<T>::getFront() {
 }
 
 template <typename T>
+int Queue<T>::getSize() {
+    return size;
+}
+
+template <typename T>
 bool Queue<T>::isEmpty() {
     return front == 0; // 0 <=> NULL
 }

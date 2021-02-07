@@ -166,6 +166,10 @@ bool Board::posIsWithinBoard(Vec2D pos) {
     return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
 }
 
+bool Board::posIsValidSpawnLocation(Vec2D pos) {
+    return posIsWithinBoard(pos) && getEntityAt(pos) == nullptr && getTileAt(pos)->getState() != hole;
+}
+
 void Board::display() {
     std::cout << std::endl;
     for(int y=height-1; y>=0; y--) {
@@ -250,7 +254,7 @@ Vec2D Board::randomValidPos() {
         int randX = rand()%(width-1);
         int randY = rand()%(height-1);
         pos.updatePosition(randX, randY);
-    } while(getEntityAt(pos) != nullptr || getTileAt(pos)->getState() == hole);
+    } while(!posIsValidSpawnLocation(pos));
 
     return pos;
 }

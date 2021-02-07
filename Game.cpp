@@ -16,13 +16,10 @@
 Game::Game() : Stateful() {
     b = nullptr;
     pushState(mainMenu);
-    turnQueue = new Queue<Entity*>();
 }
 
 Game::~Game() {
-    if(turnQueue != nullptr) {
-        delete turnQueue;
-    }
+    // Deallocator
 }
 
 void Game::pushState(GameStates state) {
@@ -96,27 +93,47 @@ void Game::initGame() {
     std::cin >> filename;
 
     b = CSVParser::parseMapFile(filename);
-    VArray<Entity*> actors = b->getActors();
-
-    for(int i=0; i<actors.getSize(); i++) {
-        turnQueue->enqueue(actors.get(i));
-    }
-
     runGame();
 }
 
 void Game::finishGame() {
+    // reset any variables used in the game
+}
 
-    // reset turn queue
-    while(!turnQueue->isEmpty()) {
-        turnQueue->dequeue();
+void Game::runStep() {
+    for(int i=0; i<b->getActors().getSize(); i++) {
+        b->getActors().get(i)->runState();
+    }
+}
+
+Vec2D getLocationForSpawnTarget() {
+    int uin;
+    std::cout << "\nSpawn Options:" << std::endl;
+    std::cout << "[1] Random Location" << std::endl;
+    std::cout << "[2] Specific Location" << std::endl;
+    std::cout << "> ";
+    std::cin >> uin;
+
+    switch(uin) {
+        case 1:
+            return Vec2D(-1, -1);
+        case 2: {
+            int x, y = 0;
+            std::cout << "\nEnter coordinates[format: x y]: ";
+            std::cin >> x >> y;
+            return Vec2D(x, y);
+        }
     }
 
+    std::cout << "\nOption outside of range, spawining target at random position!" << std::endl;
+    return Vec2D(-1, -1);
 }
 
 void Game::runGame() {
     // main application loop
-    while(true) {
+    bool keepRunning = true;
+
+    while(keepRunning) {
         b->display();
         //TODO: Print menu bar and show available actions
         std::cout << "Simulation Controls" << std::endl;
@@ -128,6 +145,46 @@ void Game::runGame() {
 
         int uin;
         std::cin >> uin;
+
+        switch(uin) {
+            case 1:
+                runStep();
+                break;
+            case 2: {
+                int loopCounter = 0;
+                while(b->getTargets().getSize() > 0) {
+                    if(loopCounter == INT_MAX) {
+                        break;
+                    }
+                    runStep();
+                    loopCounter++;
+                }
+                break;
+            }
+            case 9: {
+                Vec2D tgtPos = getLocationForSpawnTarget();
+                if(tgtPos == Vec2D(-1, -1)) {
+                    // spawn at random location
+                    b->spawnTarget();
+                } else {
+                    // coordinates were specified
+                    // check validity of coordinates
+                    if(b->posIsValidSpawnLocation(tgtPos)) {
+                        // spawn at specified location
+                        b->spawnTarget(tgtPos);
+                    } else {
+                        // display error message
+                        std::cout << "\nInvalid Spawn Location!" << std::endl;
+                    }
+                }
+                break;
+            }
+            case 0:
+                keepRunning = false;
+                break;
+            default:
+                break;
+        }
     }
     
     finishGame();
