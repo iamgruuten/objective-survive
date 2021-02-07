@@ -116,14 +116,19 @@ void Game::finishGame() {
 
 void Game::runGame() {
     // main application loop
-    //while(true) {
-        //b->display();
+    while(true) {
+        b->display();
         //TODO: Print menu bar and show available actions
-    //}
-    b->display();
-    b->spawnTarget();
-    b->display();
-    std::cout << b->getTargets().getSize() <<std::endl;
+        std::cout << "Simulation Controls" << std::endl;
+        std::cout << "[1] Simulation Step" << std::endl;
+        std::cout << "[2] Run Until Targets Destroyed" << std::endl;
+        std::cout << "[9] Spawn New Target" << std::endl;
+        std::cout << "[0] End Simulation" << std::endl;
+        std::cout << "> ";
+
+        int uin;
+        std::cin >> uin;
+    }
     
     finishGame();
 }

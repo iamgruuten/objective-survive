@@ -96,3 +96,44 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
 
     return VArray<Vec2D>(); // failure, no path
 }
+
+void Pathfinder::recursiveSearchMoves(Board& b, int mp, Vec2D pos, BHPriorityQueue<Vec2D>& pScore) {
+
+    // base case: mp > 0 after move
+
+    // calculate mpcost for current tile
+    int mpCost;
+    TileState state = b.getTileAt(pos)->getState();
+    switch(state) {
+        case normal:
+            mpCost -= 1;
+            break;
+        case water:
+            mpCost -= 2;
+            break;
+        case hole:
+            return; // entity should never consider moving over a hole
+    }
+
+    // check that there is enough mp to make the current move
+    if(mp - mpCost < 0) { return; }
+
+    // if valid, calculate score and add to posScores
+    // the lower the score, the better the move
+    int score = getScoreForPosition(pos);
+    pScore.insert(score, pos);
+
+    // continue traversing board for moves
+    VArray<Vec2D> neighbours = b.neighboursForSpaceAt(pos);
+    for(int i=0; i<neighbours.getSize(); i++) {
+        recursiveSearchMoves(b, mp, neighbours.get(i), pScore);
+    }
+}
+
+Vec2D Pathfinder::bestMoveForUnit(Board& b, int mp, Vec2D pos) {
+    BHPriorityQueue<Vec2D> posScore;
+    recursiveSearchMoves(b, mp, pos, posScore);
+
+    // returns a valid move with the best score
+    return posScore.extract();
+}

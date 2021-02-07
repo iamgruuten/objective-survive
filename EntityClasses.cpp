@@ -79,6 +79,11 @@ int Melee::getScoreForTileState(TileState tileState) {
     }
 }
 
+int Melee::getScoreForPosition(Vec2D pos) {
+    // TODO: IMPLEMENT THIS
+    // THE LOWER THE SCORE THE BETTER THE MOVE
+}
+
 //Ranged
 Ranged::Ranged(): Entity(3, 2, 1, true, true) {
     fsmStack.pushState("SpawnRanged");
