@@ -29,7 +29,7 @@ public:
 };
 
 
-class Ranged : public Entity{
+class Ranged : public Entity, public Pathfinder {
 public:
     Ranged();
     Ranged(int hp, int armor, int maxmp);
@@ -38,6 +38,8 @@ public:
     void runState();
     void display();
     void onDeath();
+    int getScoreForTileState(TileState tileState);
+
 };
 
 class Target : public Entity {

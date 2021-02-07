@@ -81,10 +81,11 @@ int Melee::getScoreForTileState(TileState tileState) {
 
 //Ranged
 Ranged::Ranged(): Entity(3, 2, 1, true, true) {
-    fsmStack.pushState("SpawnRanged");
+    fsmStack.pushState("ranger");
 }
 
 Ranged::Ranged(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true, true) {
+    fsmStack.pushState("ranger");
 }
 
 Ranged::~Ranged() {}
@@ -102,6 +103,21 @@ void Ranged::runState(){
     //If closest opponent unit is less than 3 tiles away - Action: Move Away
     //If opponenet is more than 6 tiles away - Move towards closest unit
 
+    std::string stateDesc = fsmStack.popState();
+    if(stateDesc == "ranger") {
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(6,13));
+        for(int i=0; i<path.getSize()-1; i++) {
+            boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
+        }
+    }
+
+    if(distanceTiles > 3){
+        setPos(); //Go towards the enemy unit 
+    }else{
+        setPos(); //Move away from enemy unit
+    }
+    boardRef->display();
+
 }
 
 double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
@@ -111,6 +127,18 @@ double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, in
 void Ranged::display(){
     std::cout << "m";
 }
+
+int Ranged::getScoreForTileState(TileState tileState) {
+    switch(tileState) {
+        case normal:
+            return 1;
+        case water:
+            return 2;
+        case hole:
+            return 999;
+    }
+}
+
 
 void Ranged::onDeath(){
     Board *board = boardRef;
