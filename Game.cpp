@@ -15,7 +15,7 @@
 Game::Game() : Stateful() {
     b = nullptr;
     pushState(mainMenu);
-    turnQueue = new Queue<Entity*>()
+    turnQueue = new Queue<Entity*>();
 }
 
 Game::~Game() {
