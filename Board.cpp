@@ -11,12 +11,17 @@
 #include <iostream>
 #include <stdlib.h> // rand, srand
 
-// Space implementation
+//Implementation of space in board to store tile and entity
+//pre: None
+//Post: None
 Space::Space() {
     tile = new Tile();
     entity = nullptr;
 }
 
+//Deconstructor of space in board to deconstruct tile and entity
+//pre: None
+//Post: None
 Space::~Space() {
     delete tile;
     if(entity != nullptr) {
@@ -24,6 +29,9 @@ Space::~Space() {
     }
 }
 
+//Initialization of the board with 
+//pre: Passing coords must not go beyond board size
+//Post: New Space is insert to board
 Board::Board(int w, int h) {
     width = w;
     height = h;
@@ -37,6 +45,9 @@ Board::Board(int w, int h) {
     }
 }
 
+//Deconstructor of board
+//Pre: None
+//Post: Deletes board from memory
 Board::~Board() {
     // Deconstructor
     for(int i=0; i<height; i++) {
@@ -48,6 +59,9 @@ Board::~Board() {
     delete spaces;
 }
 
+//Gets entity indicate postion from board
+//pre: Position must exist in the board
+//Post: None 
 Entity* Board::getEntityAt(Vec2D pos) {
     // GUARD pos is within board
     if(!posIsWithinBoard(pos)) {
@@ -57,6 +71,9 @@ Entity* Board::getEntityAt(Vec2D pos) {
     return spaces->get(pos.y)->get(pos.x)->entity;
 }
 
+//Move entity to a different position instantly without checking
+//pre: Position must exist in the board
+//Post: The entity from existing position is deleted, and new entity is insert to updated position
 void Board::instantMoveEntityAt(Vec2D pos, Vec2D tgt) {
     // move entity to tgt instantly (no checks!)
     Entity *e = getEntityAt(pos);
@@ -67,6 +84,9 @@ void Board::instantMoveEntityAt(Vec2D pos, Vec2D tgt) {
     display();
 }
 
+//Move entity to a different position recursively with checking
+//pre: Position must exist in the board
+//Post: The entity from existing position is deleted, and new entity is insert to updated position
 void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     // base case: pos == tgt or next move is invalid
     if(pos == tgt) {
@@ -123,6 +143,9 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     recursiveMoveEntityAt(updatedPos, tgt, !useAxisX);
 }
 
+//Spawn entity in space that is initialized
+//pre: Space must exist in the indicated position
+//Post: A new entity is insert to the space that is in the board position
 Entity* Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
     Entity* newEntity = e->clone();
     newEntity->setPos(pos.x, pos.y);
@@ -136,6 +159,9 @@ Entity* Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
     return newEntity;
 }
 
+//Delete entity from board
+//pre: Entity must exist in the space
+//Post: The entity is removed from the space that is in the board position
 void Board::despawnEntityAt(Vec2D pos) {
     Entity *e = spaces->get(pos.y)->get(pos.x)->entity;
     if(e->canAct()) {
@@ -151,10 +177,16 @@ void Board::despawnEntityAt(Vec2D pos) {
     delete e;
 }
 
+//Get the tile type from the space position
+//pre: Tile must exist in the space
+//Post: None
 Tile* Board::getTileAt(Vec2D pos) {
     return spaces->get(pos.y)->get(pos.x)->tile;
 }
 
+//Set the tile type on the space position
+//pre: Tile must not exist in the space
+//Post: The new tile state is insert to the space that is in the board position
 void Board::setTileStateAt(Vec2D pos, TileState tileState) {
     Tile *tile = getTileAt(pos);
     if(tile != nullptr) {
@@ -162,14 +194,23 @@ void Board::setTileStateAt(Vec2D pos, TileState tileState) {
     }
 }
 
+//Checks if position is within the board
+//pre: None
+//Post: None
 bool Board::posIsWithinBoard(Vec2D pos) {
     return pos.x >= 0 && pos.x < width && pos.y >= 0 && pos.y < height;
 }
 
+//Checks if position is able to spawn in the indicate location
+//pre: None
+//Post: None
 bool Board::posIsValidSpawnLocation(Vec2D pos) {
     return posIsWithinBoard(pos) && getEntityAt(pos) == nullptr && getTileAt(pos)->getState() != hole;
 }
 
+//Display board
+//pre: None
+//Post: None
 void Board::display() {
     std::cout << std::endl;
     for(int y=height-1; y>=0; y--) {
@@ -219,6 +260,9 @@ void Board::display() {
     std::cout << std::endl << std::endl;
 }
 
+//Obtain the valid neighbouring locations on the around the indicated position 
+//pre: Space must exist in the board position
+//Post: None
 VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     VArray<Vec2D> neighbours;
 
@@ -242,10 +286,16 @@ VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     return neighbours;
 }
 
+//Get All Actors
+//pre: None
+//Post: None
 VArray<Entity*> Board::getActors() {
     return actors;
 }
 
+//Random spawn units (Entity) in a valid position
+//pre: None
+//Post: Insert entity to space in the position
 Vec2D Board::randomValidPos() {
     srand(time(NULL));
     
@@ -261,14 +311,23 @@ Vec2D Board::randomValidPos() {
 
 // target methods
 
+//Retrieve all targets (Entity) in the board
+//pre: The position must have a space intialize
+//Post: None
 VArray<Entity*> Board::getTargets() {
     return targets;
 }
 
+//Spawn target at a random position
+//pre: None
+//Post: None
 void Board::spawnTarget() {
     spawnTarget(randomValidPos());
 }
 
+//Spawn target at a indicated position
+//pre: None
+//Post: None
 void Board::spawnTarget(Vec2D pos) {
     Target t = Target();
     Entity *newTarget = spawnEntityCopyAt(pos, &t);

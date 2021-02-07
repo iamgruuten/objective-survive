@@ -9,6 +9,9 @@
 
 // DamageMoveEffect implementation
 
+//Give damage to entity (units)
+//pre: None
+//Post: Entity (Units) that is being attacked attributes will be updated accordingly
 void DamageMoveEffect::applyEffect(Board& b, Vec2D tgtPos, int rotations) {
     Vec2D instanceRelPos = relPos;
 

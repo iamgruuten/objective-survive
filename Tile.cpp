@@ -1,5 +1,6 @@
 //Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//This class implementation is to create tiles for the space that is intialize 
 
 #include "Tile.h"
 #include "FSMStack.h"
@@ -12,14 +13,17 @@ Tile::Tile() {
 
 Tile::~Tile() {}
 
+//Sets state of the tiles (N - Normal. H - Hole, W - Water)
 void Tile::setState(TileState tileState) {
     state = tileState;
 }
 
+//Gets the state of the tiles 
 TileState Tile::getState() {
     return state;
 }
 
+//Displays the tiles according to its type 
 void Tile::display() {
     switch(state) {
         case normal:
