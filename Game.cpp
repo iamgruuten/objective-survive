@@ -101,9 +101,7 @@ void Game::finishGame() {
 }
 
 void Game::runStep() {
-    for(int i=0; i<b->getActors().getSize(); i++) {
-        b->getActors().get(i)->runState();
-    }
+    b->runActors();
 }
 
 Vec2D getLocationForSpawnTarget() {

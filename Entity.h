@@ -21,6 +21,7 @@ protected:
 
     bool isMoveable;
     bool isActor;
+    bool isPathable;
 
     Board* boardRef;
 
@@ -28,7 +29,7 @@ protected:
     Vec2D pos;
 
 public:
-    Entity(int hp, int armor, int maxmp, bool moveable, bool actor);
+    Entity(int hp, int armor, int maxmp, bool moveable, bool actor, bool pathable);
     virtual Entity* clone() = 0;
     virtual ~Entity();
 
@@ -41,6 +42,7 @@ public:
 
     bool canMove();
     bool canAct();
+    bool canBePathed();
 
     void setBoardRef(Board* b);
 

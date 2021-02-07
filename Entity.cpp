@@ -7,12 +7,13 @@
 #include "Board.h"
 #include "VArray.cpp"
 
-Entity::Entity(int hp, int armor, int maxmp, bool moveable, bool actor) : pos(Vec2D(0, 0)), boardRef(NULL), isActor(actor) {
+Entity::Entity(int hp, int armor, int maxmp, bool moveable, bool actor, bool pathable) : pos(Vec2D(0, 0)), boardRef(NULL), isActor(actor) {
     hp = hp;
     armor = armor;
     maxMovePoints = maxmp;
     movePoints = maxmp;
     isMoveable = moveable;
+    isPathable = pathable;
 
     spells = new VArray<Spell>();
 }
@@ -52,6 +53,10 @@ bool Entity::canMove() {
 
 bool Entity::canAct() {
     return isActor;
+}
+
+bool Entity::canBePathed() {
+    return isPathable;
 }
 
 void Entity::setBoardRef(Board* b) {

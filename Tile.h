@@ -20,6 +20,7 @@ public:
     ~Tile();
     void setState(TileState tileState);
     TileState getState();
+    int movementCostForTile();
 
     void display();
 };

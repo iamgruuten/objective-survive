@@ -63,6 +63,9 @@ void Board::instantMoveEntityAt(Vec2D pos, Vec2D tgt) {
     spaces->get(pos.y)->get(pos.x)->entity = nullptr;
     spaces->get(tgt.y)->get(tgt.x)->entity = e;
 
+    //update entity pos
+    e->setPos(tgt.x, tgt.y);
+
     // display movement
     display();
 }
@@ -170,6 +173,10 @@ bool Board::posIsValidSpawnLocation(Vec2D pos) {
     return posIsWithinBoard(pos) && getEntityAt(pos) == nullptr && getTileAt(pos)->getState() != hole;
 }
 
+bool Board::posIsValidPathingLocation(Vec2D pos) {
+    return posIsWithinBoard(pos) && (getEntityAt(pos) == nullptr || getEntityAt(pos)->canBePathed()) && getTileAt(pos)->getState() != hole;
+}
+
 void Board::display() {
     std::cout << std::endl;
     for(int y=height-1; y>=0; y--) {
@@ -230,9 +237,7 @@ VArray<Vec2D> Board::neighboursForSpaceAt(Vec2D pos) {
     Vec2D relPos = Vec2D(0, 1);
 
     for(int _=0; _<4; _++) {
-        if(posIsWithinBoard(relPos + pos) 
-        && getEntityAt(relPos + pos) == nullptr
-        && getTileAt(relPos + pos)->getState() != hole) {
+        if(posIsValidPathingLocation(relPos + pos)) {
             neighbours.push(relPos + pos);
         }
 
@@ -246,7 +251,7 @@ VArray<Entity*> Board::getActors() {
     return actors;
 }
 
-Vec2D Board::randomValidPos() {
+Vec2D Board::randomValidSpawnPos() {
     srand(time(NULL));
     
     Vec2D pos;
@@ -266,11 +271,17 @@ VArray<Entity*> Board::getTargets() {
 }
 
 void Board::spawnTarget() {
-    spawnTarget(randomValidPos());
+    spawnTarget(randomValidSpawnPos());
 }
 
 void Board::spawnTarget(Vec2D pos) {
     Target t = Target();
     Entity *newTarget = spawnEntityCopyAt(pos, &t);
     targets.push(newTarget);
+}
+
+void Board::runActors() {
+    for(int i=0; i<actors.getSize(); i++) {
+        actors.get(i)->runState();
+    }
 }

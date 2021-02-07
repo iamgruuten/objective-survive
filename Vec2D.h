@@ -14,6 +14,8 @@ public:
 
     Vec2D() {}
     Vec2D(int magnitudeX, int magnitudeY) : x(magnitudeX), y(magnitudeY) {}
+    Vec2D(const Vec2D& vec2d);
+    ~Vec2D();
 
     // class methods
     int getL1DistanceTo(Vec2D vec2d);

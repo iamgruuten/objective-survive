@@ -20,7 +20,7 @@ VArray<Vec2D> reconstructPath(CoordinateMap<Vec2D> cameFrom, Vec2D current) {
 }
 
 int h(Vec2D startPos, Vec2D endPos) {
-    return startPos.getL1DistanceTo(endPos) * 0.5;
+    return startPos.getL1DistanceTo(endPos);
 }
 
 int getValue(CoordinateMap<int> coordMap, Vec2D pos, int defaultVal) {
@@ -35,7 +35,7 @@ int getValue(CoordinateMap<int> coordMap, Vec2D pos, int defaultVal) {
 }
 
 // https://en.wikipedia.org/wiki/A*_search_algorithm
-VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos) {
+VArray<Vec2D> Pathfinder::getPathToTarget(Board* b, Vec2D startPos, Vec2D tgtPos) {
 
     // initialise the openSet, the set of all discovered nodes
     BHPriorityQueue<Vec2D> openSet;
@@ -56,11 +56,12 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
 
     while(!openSet.isEmpty()) {
         Vec2D current = openSet.extract();
+        //std::cout << (std::string) current << (std::string) tgtPos << std::endl;
         if(current == tgtPos) {
             return reconstructPath(cameFrom, current);
         }
 
-        VArray<Vec2D> neighbours = b.neighboursForSpaceAt(current);
+        VArray<Vec2D> neighbours = b->neighboursForSpaceAt(current);
         // d(current,neighbor) is the weight of the edge from current to neighbor
         // tentative_gScore is the distance from start to the neighbor through current
 
@@ -70,7 +71,7 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
         // iterate through neighbours
         for(int i=0; i<neighbours.getSize(); i++) {
             Vec2D neighbour = neighbours.get(i);
-            Tile *tile = b.getTileAt(neighbour);
+            Tile *tile = b->getTileAt(neighbour);
 
             // d(current,neighbor) is the weight of the edge from current to neighbor
             // tentative_gScore is the distance from start to the neighbor through current
@@ -94,6 +95,7 @@ VArray<Vec2D> Pathfinder::getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos
         }
     }
 
+    std::cout << "Failed to find path!" << std::endl;
     return VArray<Vec2D>(); // failure, no path
 }
 
@@ -102,18 +104,7 @@ void Pathfinder::recursiveSearchMoves(Board& b, int mp, Vec2D pos, BHPriorityQue
     // base case: mp > 0 after move
 
     // calculate mpcost for current tile
-    int mpCost;
-    TileState state = b.getTileAt(pos)->getState();
-    switch(state) {
-        case normal:
-            mpCost -= 1;
-            break;
-        case water:
-            mpCost -= 2;
-            break;
-        case hole:
-            return; // entity should never consider moving over a hole
-    }
+    int mpCost = b.getTileAt(pos)->movementCostForTile();
 
     // check that there is enough mp to make the current move
     if(mp - mpCost < 0) { return; }

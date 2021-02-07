@@ -25,7 +25,6 @@ VArray<T>::VArray(int initialSize, int initialCapacity) {
 template <typename T>
 VArray<T>::~VArray() {
     // Deconstructor
-    delete[] items;
 }
 
 template <typename T>

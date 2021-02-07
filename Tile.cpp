@@ -33,3 +33,11 @@ void Tile::display() {
             break;
     }
 }
+
+int Tile::movementCostForTile() {
+    switch(state) {
+        case normal: return 1;
+        case hole: return 999;
+        case water: return 2;
+    }
+}
