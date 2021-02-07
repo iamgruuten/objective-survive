@@ -6,6 +6,15 @@
 #include <math.h>
 #include <string>
 
+Vec2D::Vec2D(const Vec2D& vec2d) {
+    x = vec2d.x;
+    y = vec2d.y;
+}
+
+Vec2D::~Vec2D() {
+    // Destructor
+}
+
 int Vec2D::getL1DistanceTo(Vec2D vec2d) {
     return abs(vec2d.x - x) + abs(vec2d.y - y);
 }

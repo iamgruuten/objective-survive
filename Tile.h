@@ -29,6 +29,7 @@ public:
     //pre: None
     //Post: None
     TileState getState();
+    int movementCostForTile();
 
     //Displays all tiles 
     //pre: None

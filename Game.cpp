@@ -125,9 +125,7 @@ void Game::finishGame() {
 //pre: None
 //Post: None
 void Game::runStep() {
-    for(int i=0; i<b->getActors().getSize(); i++) {
-        b->getActors().get(i)->runState();
-    }
+    b->runActors();
 }
 
 //Gets Location for spawn target from a random or specific location

@@ -16,6 +16,8 @@ public:
 
     Vec2D() {}
     Vec2D(int magnitudeX, int magnitudeY) : x(magnitudeX), y(magnitudeY) {}
+    Vec2D(const Vec2D& vec2d);
+    ~Vec2D();
 
     // class methods
     //Gets the L1Distance (min steps) needed to take to reach to its indicated position 

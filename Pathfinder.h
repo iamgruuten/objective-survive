@@ -18,7 +18,7 @@ public:
     virtual ~Pathfinder();
     virtual int getScoreForTileState(TileState tileState) = 0;
     virtual int getScoreForPosition(Vec2D pos) = 0;
-    VArray<Vec2D> getPathToTarget(Board& b, Vec2D startPos, Vec2D tgtPos);
+    VArray<Vec2D> getPathToTarget(Board* b, Vec2D startPos, Vec2D tgtPos);
     void recursiveSearchMoves(Board& b, int mp, Vec2D pos, BHPriorityQueue<Vec2D>& posScores);
     Vec2D bestMoveForUnit(Board& b, int mp, Vec2D pos);
 };

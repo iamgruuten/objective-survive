@@ -41,15 +41,18 @@ public:
 
     bool posIsWithinBoard(Vec2D pos);
     bool posIsValidSpawnLocation(Vec2D pos);
+    bool posIsValidPathingLocation(Vec2D pos);
     void display();
 
     VArray<Vec2D> neighboursForSpaceAt(Vec2D pos);
     VArray<Entity*> getActors();
-    Vec2D randomValidPos();
+    Vec2D randomValidSpawnPos();
 
     VArray<Entity*> getTargets();
     void spawnTarget();
     void spawnTarget(Vec2D pos);
+
+    void runActors();
 };
 
 #endif
