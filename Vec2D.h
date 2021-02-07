@@ -6,6 +6,8 @@
 #include <string>
 
 class Vec2D {
+private:
+    int cantor_pairing_function(float x, float y);
 public:
     int x;
     int y;
@@ -31,6 +33,7 @@ public:
 
     // cast operators
     operator std::string();
+    operator int();
 
 };
 

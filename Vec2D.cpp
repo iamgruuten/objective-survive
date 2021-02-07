@@ -57,3 +57,13 @@ bool Vec2D::operator==(Vec2D rhs) {
 Vec2D::operator std::string() {
     return "<" + std::to_string(x) + ", " + std::to_string(y) + ">";
 }
+
+// https://en.wikipedia.org/wiki/Pairing_function
+// "...uniquely encodes two natural numbers into a single natural number."
+int Vec2D::cantor_pairing_function(float x, float y) {
+    return (int) (0.5 * (x + y) * (x + y + 1)) + 1;
+}
+
+Vec2D::operator int() {
+    return cantor_pairing_function(x, y);
+}

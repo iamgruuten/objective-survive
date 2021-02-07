@@ -15,7 +15,6 @@ public:
     CoordinateMap();
     ~CoordinateMap();
 
-    int cantor_pairing_function(float x, float y);
     int hash(Vec2D coord);
 
     // generic super methods

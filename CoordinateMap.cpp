@@ -14,16 +14,9 @@ CoordinateMap<T>::~CoordinateMap() {
     // Destructor.
 }
 
-// https://en.wikipedia.org/wiki/Pairing_function
-// "...uniquely encodes two natural numbers into a single natural number."
-template <typename T>
-int CoordinateMap<T>::cantor_pairing_function(float x, float y) {
-    return (int) (0.5 * (x + y) * (x + y + 1)) + 1;
-}
-
 template <typename T>
 int CoordinateMap<T>::hash(Vec2D pos) {
-    return cantor_pairing_function(pos.x, pos.y) % getCapacity();
+    return ( (int) pos ) % getCapacity();
 }
 
 template <typename T>
