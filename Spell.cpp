@@ -6,21 +6,26 @@
 #include "EffectClasses.h"
 #include "VArray.cpp"
 
-Spell::Spell() {
-    range = 0;
-    effects = new VArray<Effect*>;
+Spell::Spell() : effects(new VArray<Effect*>) {
+    range = 1;
 }
+
+Spell::Spell(int range) : effects(new VArray<Effect*>), range(range) {}
 
 Spell::~Spell() {
     delete effects;
 }
 
 void Spell::addEffect(Effect* effect) {
-    effects->push(effect);
+    if(effects != nullptr) {
+        effects->push(effect);
+    }
 }
 
 void Spell::activateSpell(Board& board, Vec2D tgtPos, int rotations) {
-    for(int i=0; i<effects->getSize(); i++) {
-        effects->get(i)->applyEffect(board, tgtPos, rotations);
+    if(effects != nullptr) {
+        for(int i=0; i<effects->getSize(); i++) {
+            effects->get(i)->applyEffect(board, tgtPos, rotations);
+        }
     }
 }

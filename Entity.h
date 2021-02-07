@@ -21,11 +21,12 @@ protected:
 
     bool isMoveable;
     bool isActor;
+    bool isTarget;
     bool isPathable;
 
     Board* boardRef;
 
-    VArray<Spell>* spells;
+    VArray<Spell*>* spells;
     Vec2D pos;
 
 public:
@@ -43,13 +44,14 @@ public:
     bool canMove();
     bool canAct();
     bool canBePathed();
+    bool canBeTargeted();
 
     void setBoardRef(Board* b);
 
     void setPos(int px, int py);
     Vec2D getPos();
 
-    void addSpell(Spell spell);
+    void addSpell(Spell* spell);
     void removeSpell(int index);
 
     // executest the spell at the index at (tgtPos) on the board, with all effect relative positions and directed effects rotated by (rotations)
@@ -60,7 +62,6 @@ public:
     virtual void display() = 0;
 
     void kill();
-    virtual void onDeath() = 0;
 };
 
 

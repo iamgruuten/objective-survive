@@ -6,6 +6,7 @@
 #include "Pathfinder.h"
 #include "EffectClasses.h"
 #include "Vec2D.h"
+#include "Spell.h"
 #include <iostream>
 
 Walls::Walls(): Entity(3, 0, 0, false, false, false) {}
@@ -27,25 +28,28 @@ void Walls::display(){
     std::cout << "A";
 }
 
-void Walls::onDeath(){
-    boardRef->despawnEntityAt(pos);
+Spell* MeleeSpells() {
+    Spell *spell = new Spell();
+    DamageMoveEffect *effect = new DamageMoveEffect(0, 0, 2, Vec2D(0, 2));
+    spell->addEffect(effect);
+    return spell;
 }
 
 //Melee
 Melee::Melee(): Entity(3, 3, 2, true, true, true) {
     fsmStack.pushState("attackClosest");
+    addSpell(MeleeSpells());
 }
 
 Melee::Melee(int hp, int armor, int maxmp): Entity(hp, armor, maxmp, true, true, true) {
     fsmStack.pushState("attackClosest");
+    addSpell(MeleeSpells());
 }
 
 Melee::~Melee() {}
 
 Entity* Melee::clone(){
-    Melee *melee = new Melee();
-    melee->setHp(hp);
-    melee->setArmor(armor);
+    Melee *melee = new Melee(hp, armor, maxMovePoints);
     return melee;
 }
 
@@ -87,7 +91,6 @@ void Melee::runState(){
 
                 //check movement cost for next tile
                 int moveCost = boardRef->getTileAt(path.get(i+1))->movementCostForTile();
-                std::cout << movePoints - moveCost << std::endl;
                 if(movePoints - moveCost < 0) {
                     break; // stop moving if movecost is too high
                 } else {
@@ -111,7 +114,7 @@ void Melee::runState(){
             if(checkRelPos + pos == tgtPos) {
                 // found target, attack
                 std::cout << "attacked enemy" << std::endl;
-                //executeSpell(0, *boardRef, checkRelPos + pos, rot);
+                executeSpell(0, *boardRef, tgtPos, rot);
             }
             // else, rotate and check next direction
             checkRelPos.transformCW90();
@@ -125,10 +128,6 @@ void Melee::runState(){
 
 void Melee::display(){
     std::cout << "m";
-}
-
-void Melee::onDeath(){
-    boardRef->despawnEntityAt(pos);
 }
 
 int Melee::getScoreForTileState(TileState tileState) {
@@ -206,7 +205,7 @@ void Ranged::runState(){
 }
 
 void Ranged::display(){
-    std::cout << "m";
+    std::cout << "r";
 }
 
 int Ranged::getScoreForTileState(TileState tileState) {
@@ -246,14 +245,13 @@ int Ranged::getScoreForPosition(Vec2D pos) {
     return rewards;
 }
 
-void Ranged::onDeath(){
-    Board *board = boardRef;
-    board->despawnEntityAt(pos);
+Target::Target() : Entity(5, 0, 0, true, false, true) {
+    isTarget = true;
 }
 
-Target::Target() : Entity(10, 0, 0, false, false, true) {}
-
-Target::Target(int hp, int armor) : Entity(hp, armor, 0, false, false, true) {}
+Target::Target(int hp, int armor) : Entity(hp, armor, 0, true, false, true) {
+    isTarget = true;
+}
 
 Target::~Target() {}
 
@@ -265,8 +263,4 @@ void Target::runState() {}
 
 void Target::display() {
     std::cout << "!";
-}
-
-void Target::onDeath() {
-    boardRef->despawnEntityAt(pos);
 }

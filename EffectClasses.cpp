@@ -5,9 +5,16 @@
 #include "Board.h"
 #include "Entity.h"
 #include "algoMethods.h"
+#include "Vec2D.h"
 #include <math.h>
+#include <iostream>
+
+// Effect implementation
+Effect::~Effect() {}
 
 // DamageMoveEffect implementation
+
+DamageMoveEffect::~DamageMoveEffect() {}
 
 void DamageMoveEffect::applyEffect(Board& b, Vec2D tgtPos, int rotations) {
     Vec2D instanceRelPos = relPos;
@@ -27,6 +34,12 @@ void DamageMoveEffect::applyEffect(Board& b, Vec2D tgtPos, int rotations) {
     // Damage tgt entity
     int effectiveDamage = max(0, damage - tgt->getArmor());
     tgt->deductHp(effectiveDamage);
+
+    // check if entity is still alive for move
+    tgt = b.getEntityAt(effectPos);
+    if(tgt == nullptr) {
+        return;
+    }
 
     // Move tgt entity
 

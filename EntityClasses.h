@@ -12,7 +12,6 @@ public:
     Entity* clone();
     void runState();
     void display();
-    void onDeath();
 };
 
 
@@ -24,7 +23,6 @@ public:
     Entity* clone();
     void runState();
     void display();
-    void onDeath();
     int getScoreForTileState(TileState tileState);
     int getScoreForPosition(Vec2D pos);
 };
@@ -38,7 +36,6 @@ public:
     Entity* clone();
     void runState();
     void display();
-    void onDeath();
     int getScoreForTileState(TileState tileState);
     int getScoreForPosition(Vec2D pos);
 };
@@ -51,7 +48,6 @@ public:
     Entity* clone();
     void runState();
     void display();
-    void onDeath();
 };
 
 #endif  

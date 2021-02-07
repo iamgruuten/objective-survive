@@ -71,6 +71,11 @@ void Board::instantMoveEntityAt(Vec2D pos, Vec2D tgt) {
 }
 
 void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
+    //GUARD entity at pos exists
+    if(getEntityAt(pos) == nullptr) {
+        return;
+    }
+
     // base case: pos == tgt or next move is invalid
     if(pos == tgt) {
         return;
@@ -110,12 +115,17 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     // check for collision
     if(getEntityAt(updatedPos) != nullptr) {
         // apply collision to both entities, moving entity stops moving
+        std::cout << "collision damage bonus!" << std::endl;
+        getEntityAt(pos)->deductHp(1);
+        getEntityAt(pos)->deductHp(1);
+        
         return;
     }
 
     // check for hole
     if(getTileAt(updatedPos)->getState() == hole) {
         // entity drops to death, movement stops as well
+        getEntityAt(pos)->kill();
         return;
     }
 
@@ -140,7 +150,7 @@ Entity* Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
 }
 
 void Board::despawnEntityAt(Vec2D pos) {
-    Entity *e = spaces->get(pos.y)->get(pos.x)->entity;
+    Entity *e = getEntityAt(pos);
     if(e->canAct()) {
         for(int i=0; i<actors.getSize(); i++) {
             if(actors.get(i) == e) {
@@ -149,9 +159,17 @@ void Board::despawnEntityAt(Vec2D pos) {
             }
         }
     }
+    if(e->canBeTargeted()) {
+        for(int i=0; i<targets.getSize(); i++) {
+            if(targets.get(i) == e) {
+                targets.remove(i);
+                break;
+            }
+        }
+    }
 
-    spaces->get(pos.y)->get(pos.x)->entity = nullptr;
     delete e;
+    spaces->get(pos.y)->get(pos.x)->entity = nullptr;
 }
 
 Tile* Board::getTileAt(Vec2D pos) {
@@ -192,15 +210,14 @@ void Board::display() {
         
         for(int x=0; x<width; x++) {
             Entity *e = spaces->get(y)->get(x)->entity;
+            Tile *t = spaces->get(y)->get(x)->tile;
+            
             if(e != nullptr) {
                 e->display();
+            } else if(t != nullptr) {
+                t->display();
             } else {
-                Tile *t = spaces->get(y)->get(x)->tile;
-                if(t != nullptr) {
-                    t->display();
-                } else {
-                    std::cout << "█";
-                }
+                std::cout << "█";
             }
             std::cout << " ";
         }

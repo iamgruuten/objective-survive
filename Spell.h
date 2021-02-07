@@ -17,7 +17,7 @@ private:
 public:
     Spell();
     ~Spell();
-    Spell(int range) : range(range), effects() {}
+    Spell(int range);
     void addEffect(Effect* effect);
     void activateSpell(Board& board, Vec2D tgtPos, int rotations);
 };

@@ -7,19 +7,13 @@
 #include "Board.h"
 #include "VArray.cpp"
 
-Entity::Entity(int hp, int armor, int maxmp, bool moveable, bool actor, bool pathable) : pos(Vec2D(0, 0)), boardRef(NULL), isActor(actor) {
-    hp = hp;
-    armor = armor;
-    maxMovePoints = maxmp;
-    movePoints = maxmp;
-    isMoveable = moveable;
-    isPathable = pathable;
+Entity::Entity(int hp, int armor, int maxmp, bool moveable, bool actor, bool pathable) : hp(hp), armor(armor), maxMovePoints(maxmp), movePoints(maxmp), pos(Vec2D(0, 0)), boardRef(nullptr), isActor(actor), isMoveable(moveable), isPathable(pathable), isTarget(false), spells(nullptr) {
 
-    spells = new VArray<Spell>();
+    spells = new VArray<Spell*>();
 }
 
 Entity::~Entity() {
-
+    delete spells;
 }
 
 void Entity::setHp(int val) {
@@ -34,7 +28,7 @@ void Entity::deductHp(int val) {
     hp -= val;
 
     //CHECK DEATH
-    if(hp < 0) {
+    if(hp <= 0) {
         kill();
     }
 }
@@ -59,6 +53,10 @@ bool Entity::canBePathed() {
     return isPathable;
 }
 
+bool Entity::canBeTargeted() {
+    return isTarget;
+}
+
 void Entity::setBoardRef(Board* b) {
     boardRef = b;
 }
@@ -71,20 +69,25 @@ Vec2D Entity::getPos() {
     return pos;
 }
 
-void Entity::addSpell(Spell spell) {
-    spells->push(spell);
+void Entity::addSpell(Spell* spell) {
+    if(spells != nullptr) {
+        spells->push(spell);
+    }
 }
 
 void Entity::removeSpell(int index) {
-    spells->remove(index);
+    if(spells != nullptr) {
+        spells->remove(index);
+    }
 }
 
 void Entity::executeSpell(int index, Board& board, Vec2D tgtPos, int rotations) {
-    Spell spell = spells->get(index);
-    spell.activateSpell(board, tgtPos, rotations);
+    if(spells != nullptr) {
+        Spell *spell = spells->get(index);
+        spell->activateSpell(board, tgtPos, rotations);
+    }
 }
 
 void Entity::kill() {
     boardRef->despawnEntityAt(pos);
-    onDeath();
 }
