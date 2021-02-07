@@ -1,6 +1,5 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//Vec2D is used to manage the position, distance, location, etc. to navigate around the board
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
 
 #include "Vec2D.h"
 #include <math.h>

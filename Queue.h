@@ -1,5 +1,13 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Queue
+
+// This is a general templated Queue class
+// that can be used flexibly within the program.
+
+// Originally intended for use in level-order graph
+// traversal, but has seen much use otherwise.
 
 #ifndef queue_h
 #define queue_h

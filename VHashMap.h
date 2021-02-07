@@ -1,7 +1,20 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//The hash Map implements an associative VArray abstract data type that is created on this project, 
-//a structure that can map keys to values. 
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// ! Featured !
+
+// VHashMap
+
+// VHashMap is a dynamic HashMap that resizes itself
+// according to its load factor
+
+// The load factor is calculated as n/k, where
+// n is the number of entries and k is the number
+// of buckets
+
+// It is built on top of the VArray ADT, in place of
+// a vector, or implementing its own array resizing
+// function
 
 #ifndef vhashmap_h
 #define vhashmap_h
@@ -31,7 +44,7 @@ private:
 public:
     VHashMap();
 
-    //Initalize the initaliCapacity of the map
+    //Initalize the initialCapacity of the map
     //pre: None
     //Post: None
     VHashMap(int initialCapacity);

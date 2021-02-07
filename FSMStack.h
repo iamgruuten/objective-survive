@@ -1,6 +1,19 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//This stack is to keep track the state of each object for the game
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// FSMStack
+
+// The FSMStack is a Stack data structure used
+// to implement Finite-State-Machines.
+
+// These Finite State Machines are used in the
+// Entity classes and the Game instance to 
+// run specific actions based on the current
+// state of the object instance.
+
+// The Stateful Class is a component class that
+// other classes can inherit to utilise a 
+// Finite-State-Machine.
 
 #ifndef fsmstack_h
 #define fsmstack_h

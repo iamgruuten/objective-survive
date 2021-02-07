@@ -1,5 +1,11 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Entity
+
+// Entities are an abstraction of game pieces.
+// Only one entity can occupy a Space on the Board at any
+// given time.
 
 #ifndef entity_h
 #define entity_h

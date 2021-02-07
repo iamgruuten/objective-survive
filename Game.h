@@ -1,7 +1,10 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
 
-//This file is used to initiliaze the game map and keep tracks of each state (runtime)
+// Game
+
+// The Game object keeps track of the game's state
+// and implements the main loop of the application.
 
 #ifndef game_h
 #define game_h
@@ -18,7 +21,6 @@ class Game : protected Stateful {
 private:
     Board* b;
 public:
-    
     Game();
     ~Game();
 

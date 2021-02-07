@@ -1,5 +1,13 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Effect Classes
+
+// Effects are the most basic components of a Spell
+// They abstract interactions with the game environment
+// In this case, although only damage and knockback are
+// currently represented, they can act directly on any 
+// of an entitiy's attributes.
 
 #ifndef effectclasses_h
 #define effectclasses_h

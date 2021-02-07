@@ -1,3 +1,6 @@
+//Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
 #include "CSVParser.h"
 #include "VArray.cpp"
 #include "Tile.h"

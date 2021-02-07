@@ -1,11 +1,18 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Vec2D
+
+// Vec2D represents a two dimensional vector
+// and is commonly used in representing the
+// positions of objects in the game environment
+
+// It can also be used to represent relative
+// positions in relation to an origin position
 
 #ifndef vec2d_h
 #define vec2d_h
 #include <string>
-//Vec2D is used to manage the position, distance, location, etc. to navigate around the board
-
 
 class Vec2D {
 private:

@@ -1,5 +1,25 @@
- #ifndef EntityClasses_h
- #define EntityClasses_h
+//Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// ! Featured !
+// Heuristic Function AI
+
+// Entity Classes
+
+// These Classes inherit the Entity specifications
+// and represent more specialised instances of the
+// Entity class.
+
+// There is currently a Ranged Entity Class that
+// has been partly implemented, and is unfortunately
+// non-operational.
+
+// However, it is an example of a entity that uses
+// a heuristic function in deciding the next move to take.
+
+ 
+#ifndef EntityClasses_h
+#define EntityClasses_h
 
 #include "Entity.h"
 #include "Pathfinder.h"

@@ -1,6 +1,12 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//This class implementation is to create tiles for the space that is intialize 
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Tile
+
+// The Tile class is an abstraction of a unit area
+// in the game environment. Entities 'stand' on these
+// and can be affected by the state of the tile when
+// moving/being moved over them.
 
 #ifndef tile_h
 #define tile_h

@@ -1,6 +1,5 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//This class implementation is to create tiles for the space that is intialize 
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
 
 #include "Tile.h"
 #include "FSMStack.h"

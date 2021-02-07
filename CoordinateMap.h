@@ -1,5 +1,9 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Coordinate HashMap
+
+// A specialized HashMap class dealing with Vec2D objects.
 
 #ifndef coordinatemap_h
 #define coordinatemap_h

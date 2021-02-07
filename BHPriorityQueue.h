@@ -1,5 +1,14 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// ! Featured !
+// Priority Queue using Binary Heap (Min-Heap)
+
+/**
+The Binary Heap Priority Queue uses VArray implementation
+Time Complexity: The time complexity of all the operation is O(log N) except for GetMin() which has time complexity of O(1). 
+Auxiliary Space: O(N)
+**/
 
 #ifndef bhpriorityqueue_h
 #define bhpriorityqueue_h

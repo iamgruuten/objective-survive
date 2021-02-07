@@ -1,7 +1,20 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
-//VArray is a data structure similar to vector. 
-//It is created to help store the game objects
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// ! Featured !
+
+// VArray
+
+// A custom Dynamic Array data structure template
+// class for general use in the application. It
+// sees widespread use within many other Abstract
+// Data Types such as BHPriorityQueue and VHashMap
+
+// Its resize function doubles the underlying array
+// capacity on hitting the limit.
+
+// This data structure performs similarly to the 
+// vector class in C++ on a best effort basis.
 
 #ifndef varray_h
 #define varray_h

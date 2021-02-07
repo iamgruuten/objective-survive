@@ -1,5 +1,13 @@
-//Team members - Lee Quan Sheng and Eugene Long
 //Group 8
+//Lee Quan Sheng [S10198298], Eugene Long [S10193060J]
+
+// Board
+
+// The Board Class is an abstrction for the game's environment
+// It contains spaces, which represent a unit area of the board
+// These spaces can contain entities and tiles, of which the 
+// entities represent game pieces and tiles represent the board
+// segments.
 
 #ifndef board_h
 #define board_h
