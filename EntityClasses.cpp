@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "BHPriorityQueue.h"
 #include "Pathfinder.h"
+#include "EffectClasses.h"
 #include <iostream>
 
 Walls::Walls(): Entity(3, 0, 0, false, false) {}
@@ -48,15 +49,35 @@ Entity* Melee::clone(){
 }
 
 void Melee::runState(){
+
+    VArray<Entity* > targets = boardRef->getTargets();
+    BHPriorityQueue<Entity*> bhpq;
+
+    for(int t = 0; t < targets.getSize(); t++)
+    {
+        Entity* e = targets.get(t);
+        int distance = this->getPos().getL1DistanceTo(e->getPos());
+        bhpq.insert(distance, e);
+    }
+
+    Entity* tgt = bhpq.extract();
+
+
     std::string stateDesc = fsmStack.popState();
+    
     if(stateDesc == "search") {
-        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(6,13));
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos,tgt->getPos());
+
         std::cout << path.getSize() << std::endl;
         for(int i=0; i<path.getSize()-1; i++) {
             std::cout << (std::string) path.get(i) << std::endl;
             boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
+            if(movePoints == 0){
+                break;
+            }
         }
     }
+
     boardRef->display();
 }
 
@@ -79,9 +100,36 @@ int Melee::getScoreForTileState(TileState tileState) {
     }
 }
 
+
+
+double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
+    return sqrt((a_x- b_x)^2 + (a_y - b_y)^2 + (a_health - b_health)^2) ;
+}
+
+
 int Melee::getScoreForPosition(Vec2D pos) {
     // TODO: IMPLEMENT THIS
     // THE LOWER THE SCORE THE BETTER THE MOVE
+    //Ranged
+    VArray<Entity* > entities = boardRef->getTargets();
+
+    //Check if i can attack the target within the position
+    
+    BHPriorityQueue<Entity*> bhpq; 
+    double rewards = 0;
+
+    for(int e = 0; e < entities.getSize(); e++)
+    {
+        Entity* a = entities.get(e);
+
+        Vec2D vol = a->getPos() - this->pos;
+        
+        if((vol == Vec2D(-1, 0)) || (vol == Vec2D(0,-1)) || (vol == Vec2D(1,0)) || (vol == Vec2D(0,1))){
+            return 100;
+        }
+    }
+
+    return 0;
 }
 
 //Ranged
@@ -103,37 +151,12 @@ Entity* Ranged::clone(){
 }
 
 
-double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, int b_health){
-    return sqrt((a_x- b_x)^2 + (a_y - b_y)^2 + (a_health - b_health)^2) ;
-}
-
-
 
 void Ranged::runState(){
-    //Ranged
-    VArray<Entity* > entities = boardRef->getTargets();
-    BHPriorityQueue<Entity*> bhpq; 
-
-    for(int e = 0; e < entities.getSize(); e++)
-    {
-        Entity* a = entities.get(e);
-        double rewards = heuristicCalculation(pos.x, pos.y, a->getPos().x, a->getPos().y, a->getHp(), getHp())
-        bhpq.insert(rewards, a);
-
-    }
-
-    Entity* targ = bhpq.extract();
+ 
 
     //If closest opponent unit is less than 3 tiles away - Action: Move Away
     //If opponenet is more than 6 tiles away - Move towards closest unit
-
-    std::string stateDesc = fsmStack.popState();
-    
-    
-    int steps = (targ->getPos().x - pos.x) + (targ->getPos().y - pos.y);
-
-    std::cout << "Steps from target " << steps;
-    VArray<Vec2D> path = getPathToTarget(*boardRef, pos, );
 
     boardRef->display();
 
@@ -158,6 +181,23 @@ int Ranged::getScoreForTileState(TileState tileState) {
 int Ranged::getScoreForPosition(Vec2D pos) {
     // TODO: IMPLEMENT THIS
     // THE LOWER THE SCORE THE BETTER THE MOVE
+
+    //Ranged
+    VArray<Entity* > entities = boardRef->getTargets();
+
+    //Check if i can attack the target within the position
+    
+    BHPriorityQueue<Entity*> bhpq; 
+    double rewards = 0;
+
+    for(int e = 0; e < entities.getSize(); e++)
+    {
+        Entity* a = entities.get(e);
+
+        rewards = rewards + heuristicCalculation(pos.x, pos.y, a->getPos().x, a->getPos().y, a->getHp(), this->hp);
+    }
+
+    return rewards;
 }
 
 void Ranged::onDeath(){
