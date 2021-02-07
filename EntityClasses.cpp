@@ -158,6 +158,35 @@ void Ranged::runState(){
     //If closest opponent unit is less than 3 tiles away - Action: Move Away
     //If opponenet is more than 6 tiles away - Move towards closest unit
 
+    VArray<Entity* > targets = boardRef->getTargets();
+    BHPriorityQueue<Entity*> bhpq;
+
+    for(int t = 0; t < targets.getSize(); t++)
+    {
+        Entity* e = targets.get(t);
+        int distance = this->getPos().getL1DistanceTo(e->getPos());
+        bhpq.insert(distance, e);
+    }
+
+    Entity* tgt = bhpq.extract();
+
+
+    std::string stateDesc = fsmStack.popState();
+    
+    Vec2D nextPos = bestMoveForUnit(*boardRef, movePoints, tgt->getPos());
+
+    if(stateDesc == "search") {
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, nextPos);
+        std::cout << path.getSize() << std::endl;
+        for(int i=0; i<path.getSize()-1; i++) {
+            std::cout << (std::string) path.get(i) << std::endl;
+            boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
+            if(movePoints == 0){
+                break;
+            }
+        }
+    }
+
     boardRef->display();
 
 }
