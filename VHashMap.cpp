@@ -39,19 +39,7 @@ void VHashMap<Key, Value>::checkLoadAndResize() {
 
     // if load exceeded, increase capacity
     if(load > VHM_MAX_LOAD_FACTOR) {
-        // allocate new array with larger capacity
-        VArray< VHashMapItem<Key, Value>* > *temp = new VArray< VHashMapItem<Key, Value>* >(capacity*2, capacity*2);
-        
-        // copy over all items from previous arr
-        for(int i=0; i<capacity; i++) {
-            temp->set(items->get(i), i);
-        }
-
-        // swap arrays and deallocate old array
-        capacity *= 2;
-        VArray< VHashMapItem<Key, Value>* > *swap = items;
-        items = temp;
-        delete swap;
+        items->resize();
     }
 }
 
