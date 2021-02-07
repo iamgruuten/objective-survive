@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "BHPriorityQueue.h"
 #include "Pathfinder.h"
+#include "EffectClasses.h"
 #include <iostream>
 
 Walls::Walls(): Entity(3, 0, 0, false, false) {}
@@ -48,15 +49,35 @@ Entity* Melee::clone(){
 }
 
 void Melee::runState(){
+
+    VArray<Entity* > targets = boardRef->getTargets();
+    BHPriorityQueue<Entity*> bhpq;
+
+    for(int t = 0; t < targets.getSize(); t++)
+    {
+        Entity* e = targets.get(t);
+        int distance = this->getPos().getL1DistanceTo(e->getPos());
+        bhpq.insert(distance, e);
+    }
+
+    Entity* tgt = bhpq.extract();
+
+
     std::string stateDesc = fsmStack.popState();
+    
     if(stateDesc == "search") {
-        VArray<Vec2D> path = getPathToTarget(*boardRef, pos, Vec2D(6,13));
+        VArray<Vec2D> path = getPathToTarget(*boardRef, pos,tgt->getPos());
+
         std::cout << path.getSize() << std::endl;
         for(int i=0; i<path.getSize()-1; i++) {
             std::cout << (std::string) path.get(i) << std::endl;
             boardRef->recursiveMoveEntityAt(path.get(i), path.get(i+1), true);
+            if(movePoints == 0){
+                break;
+            }
         }
     }
+
     boardRef->display();
 }
 
@@ -89,9 +110,6 @@ double heuristicCalculation(int a_x, int a_y, int b_x, int b_y, int a_health, in
 int Melee::getScoreForPosition(Vec2D pos) {
     // TODO: IMPLEMENT THIS
     // THE LOWER THE SCORE THE BETTER THE MOVE
-    int CurrX = this->pos.x;
-    int CurrY = this->pos.y;
-
     //Ranged
     VArray<Entity* > entities = boardRef->getTargets();
 
@@ -106,17 +124,12 @@ int Melee::getScoreForPosition(Vec2D pos) {
 
         Vec2D vol = a->getPos() - this->pos;
         
-        switch(vol){
-            case Vec2D(-1, 0):
-            case Vec2D(0, -1):
-            case Vec2D(1,0):
-            case Vec2D(0,1):
+        if((vol == Vec2D(-1, 0)) || (vol == Vec2D(0,-1)) || (vol == Vec2D(1,0)) || (vol == Vec2D(0,1))){
+            return 100;
         }
-        rewards = rewards + heuristicCalculation(CurrX, CurrY, a->getPos().x, a->getPos().y, a->getHp(), getHp());
-
     }
 
-    return rewards;
+    return 0;
 }
 
 //Ranged
@@ -168,6 +181,23 @@ int Ranged::getScoreForTileState(TileState tileState) {
 int Ranged::getScoreForPosition(Vec2D pos) {
     // TODO: IMPLEMENT THIS
     // THE LOWER THE SCORE THE BETTER THE MOVE
+
+    //Ranged
+    VArray<Entity* > entities = boardRef->getTargets();
+
+    //Check if i can attack the target within the position
+    
+    BHPriorityQueue<Entity*> bhpq; 
+    double rewards = 0;
+
+    for(int e = 0; e < entities.getSize(); e++)
+    {
+        Entity* a = entities.get(e);
+
+        rewards = rewards + heuristicCalculation(pos.x, pos.y, a->getPos().x, a->getPos().y, a->getHp(), this->hp);
+    }
+
+    return rewards;
 }
 
 void Ranged::onDeath(){
