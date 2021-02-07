@@ -155,6 +155,10 @@ int Ranged::getScoreForTileState(TileState tileState) {
     }
 }
 
+int Ranged::getScoreForPosition(Vec2D pos) {
+    // TODO: IMPLEMENT THIS
+    // THE LOWER THE SCORE THE BETTER THE MOVE
+}
 
 void Ranged::onDeath(){
     Board *board = boardRef;
