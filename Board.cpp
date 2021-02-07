@@ -5,6 +5,7 @@
 #include "Vec2D.h"
 #include "Tile.h"
 #include "Entity.h"
+#include "EntityClasses.h"
 #include "VArray.cpp"
 
 #include <iostream>
@@ -122,7 +123,7 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     recursiveMoveEntityAt(updatedPos, tgt, !useAxisX);
 }
 
-void Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
+Entity* Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
     Entity* newEntity = e->clone();
     newEntity->setPos(pos.x, pos.y);
     newEntity->setBoardRef(this);
@@ -131,6 +132,8 @@ void Board::spawnEntityCopyAt(Vec2D pos, Entity* e) {
     if(newEntity->canAct()) {
         actors.push(newEntity);
     }
+
+    return newEntity;
 }
 
 void Board::despawnEntityAt(Vec2D pos) {
@@ -250,4 +253,20 @@ Vec2D Board::randomValidPos() {
     } while(getEntityAt(pos) != nullptr || getTileAt(pos)->getState() == hole);
 
     return pos;
+}
+
+// target methods
+
+VArray<Entity*> Board::getTargets() {
+    return targets;
+}
+
+void Board::spawnTarget() {
+    spawnTarget(randomValidPos());
+}
+
+void Board::spawnTarget(Vec2D pos) {
+    Target t = Target();
+    Entity *newTarget = spawnEntityCopyAt(pos, &t);
+    targets.push(newTarget);
 }

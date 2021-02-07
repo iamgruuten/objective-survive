@@ -24,6 +24,7 @@ private:
     int height;
     VArray< VArray< Space* >* > *spaces;
     VArray<Entity*> actors;
+    VArray<Entity*> targets;
 
 public:
     Board(int w, int h);
@@ -32,7 +33,7 @@ public:
     Entity* getEntityAt(Vec2D pos);
     void instantMoveEntityAt(Vec2D pos, Vec2D tgt);
     void recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX);
-    void spawnEntityCopyAt(Vec2D pos, Entity* e);
+    Entity* spawnEntityCopyAt(Vec2D pos, Entity* e);
     void despawnEntityAt(Vec2D pos);
 
     Tile* getTileAt(Vec2D pos);
@@ -44,6 +45,10 @@ public:
     VArray<Vec2D> neighboursForSpaceAt(Vec2D pos);
     VArray<Entity*> getActors();
     Vec2D randomValidPos();
+
+    VArray<Entity*> getTargets();
+    void spawnTarget();
+    void spawnTarget(Vec2D pos);
 };
 
 #endif

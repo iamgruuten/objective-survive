@@ -8,6 +8,7 @@
 #include "EntityClasses.h"
 #include "Vec2D.h"
 #include "CSVParser.h"
+#include "Queue.cpp"
 
 #include <string>
 #include <iostream>
@@ -19,9 +20,6 @@ Game::Game() : Stateful() {
 }
 
 Game::~Game() {
-    if(b != nullptr) {
-        delete b;
-    }
     if(turnQueue != nullptr) {
         delete turnQueue;
     }
@@ -114,18 +112,18 @@ void Game::finishGame() {
         turnQueue->dequeue();
     }
 
-    // reset board
-    Board* temp = b;
-    b = nullptr;
-    delete temp;
 }
 
 void Game::runGame() {
     // main application loop
-    while(true) {
-        b->display();
+    //while(true) {
+        //b->display();
         //TODO: Print menu bar and show available actions
-    }
+    //}
+    b->display();
+    b->spawnTarget();
+    b->display();
+    std::cout << b->getTargets().getSize() <<std::endl;
     
     finishGame();
 }
