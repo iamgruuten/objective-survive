@@ -145,7 +145,7 @@ Vec2D getLocationForSpawnTarget() {
             return Vec2D(-1, -1);
         case 2: {
             int x, y = 0;
-            std::cout << "\nEnter coordinates[format: x y]: ";
+            std::cout << "\nEnter coordinates[format:x (space) y, e.g '1 2']: ";
             std::cin >> x >> y;
             return Vec2D(x, y);
         }

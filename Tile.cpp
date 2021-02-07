@@ -33,7 +33,7 @@ void Tile::display() {
             std::cout << " ";
             break;
         case water:
-            std::cout << "w";
+            std::cout << "~";
             break;
     }
 }

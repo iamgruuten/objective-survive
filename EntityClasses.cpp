@@ -12,7 +12,7 @@
 //Initialize the Walls entity
 //pre: None
 //Post: None
-Walls::Walls(): Entity(3, 0, 0, false, false, false) {}
+Walls::Walls(): Entity(1, 0, 0, false, false, false) {}
 //Initialize the Walls entity
 //pre: None
 //Post: None
@@ -274,5 +274,5 @@ Entity* Target::clone() {
 void Target::runState() {}
 
 void Target::display() {
-    std::cout << "!";
+    std::cout << "T";
 }

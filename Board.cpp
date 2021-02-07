@@ -131,7 +131,7 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
     }
 
     // GUARD target and pos are within board
-    if(!posIsWithinBoard(pos) && !posIsWithinBoard(updatedPos)) {
+    if(!posIsWithinBoard(pos) || !posIsWithinBoard(updatedPos)) {
         return;
     }
 
@@ -140,7 +140,7 @@ void Board::recursiveMoveEntityAt(Vec2D pos, Vec2D tgt, bool useAxisX) {
         // apply collision to both entities, moving entity stops moving
         std::cout << "collision damage bonus!" << std::endl;
         getEntityAt(pos)->deductHp(1);
-        getEntityAt(pos)->deductHp(1);
+        getEntityAt(updatedPos)->deductHp(1);
         
         return;
     }
